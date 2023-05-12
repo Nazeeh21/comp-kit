@@ -13,6 +13,8 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "build:types": "tsc -p ./tsconfig.json --outDir build --declaration true && api-extractor run",
+    "docs": "typedoc src --out docs",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
@@ -56,6 +58,8 @@
     "@storybook/addon-links": "^7.0.11",
     "@storybook/addons": "^7.0.11",
     "@storybook/react": "^7.0.11",
+    "@microsoft/api-extractor": "^7.34.9",
+    "typedoc": "^0.24.7",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@typescript-eslint/eslint-plugin": "^5.43.0",
@@ -74,5 +78,6 @@
     "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
-  }
+  },
+  "dependencies": {}
 }
