@@ -1,5 +1,5 @@
 name: CI
-on: [push]
+on: [push, pull_request]
 jobs:
   build:
     name: Build, lint, and test on Node ${{ matrix.node }} and ${{ matrix.os }}
@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install deps and build (with cache)
-        uses: bahmutov/pnpm-install@v1
+      - name: Install deps
+        uses: pnpm install
 
       - name: Lint
         run: pnpm lint
