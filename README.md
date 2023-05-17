@@ -27,6 +27,8 @@ To build the package, run the below command
 pnpm build
 ```
 
+I've commented pre-commit hook commands in the `.husky/pre-commit` file, feel free to uncomment the required commands as per your need.
+
 ### Libs included
 
 - react
