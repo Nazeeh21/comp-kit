@@ -10,7 +10,7 @@
     "build": "tsc --project tsconfig.build.json",
     "clean": "rm -rf ./lib/",
     "cm": "cz",
-    "lint": "eslint ./package/**/**.tsx --fix",
+    "lint": "eslint package/**/**.{tsx,ts} --fix",
     "prepare": "husky install",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
@@ -65,7 +65,7 @@
     "typescript": "^4.7.4"
   },
   "lint-staged": {
-    "*.tsx": "eslint --cache --cache-location .eslintcache --fix"
+    "package/**/**.{js,ts,tsx}": "eslint --cache --cache-location .eslintcache --fix"
   },
   "release": {
     "branches": [
