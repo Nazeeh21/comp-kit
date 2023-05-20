@@ -1,4 +1,2 @@
-dist
-docs
-node_modules
-build
+/package/test/__snapshots__
+/coverage
