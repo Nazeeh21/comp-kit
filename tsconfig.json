@@ -68,6 +68,6 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["package/src/**/*.tsx", "package/test/**/*.tsx", "package/test/index.test.tsx"],
+  "include": ["package/src/**/*.tsx", "package/test/**/*.tsx", "package/test/index.test.tsx", ".eslintrc.js", "jest.config.js"],
   "exclude": ["package/test/__snapshots__"]
 }
