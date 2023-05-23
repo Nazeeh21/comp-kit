@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: 16
+          node-version: 18
       - name: Restore node modules cache
         uses: actions/cache@v2
         env:
@@ -32,13 +32,12 @@ jobs:
   change:
     runs-on: "ubuntu-latest"
     steps:
-      - uses: "actions/checkout@main"
 
       - name: "Install dependencies"
         run: "yarn install"
 
       - name: "Run checks"
-        uses: "./.github/actions/check"
+        run: "yarn test && yarn lint"
 
       - name: "Build"
         run: "yarn build"
