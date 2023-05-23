@@ -130,5 +130,7 @@
   },
   "peerDependencies": {
     "react": ">=16"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "_id": "comp-kit@0.0.0-development"
 }
