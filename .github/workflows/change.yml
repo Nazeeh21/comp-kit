@@ -34,13 +34,13 @@ jobs:
     steps:
 
       - name: "Install dependencies"
-        run: "yarn install"
+        run: yarn install
 
       - name: "Run checks"
-        run: "yarn test"
+        run: yarn test
 
       - name: "Build"
-        run: "yarn build"
+        run: yarn build
 
     #   - name: "Configure .npmrc"
     #     run: |
