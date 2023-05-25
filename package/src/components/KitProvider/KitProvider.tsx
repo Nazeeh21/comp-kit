@@ -1,11 +1,11 @@
 import React, { ReactNode, useContext, useMemo } from 'react';
-import { CustomTransport, createPublicClient, createWalletClient } from 'viem';
+import { Transport, createPublicClient, createWalletClient, http } from 'viem';
 import { Chain } from 'viem/chains';
 
 export interface KitProviderProps {
   chains: Chain;
   children: ReactNode;
-  transport: CustomTransport;
+  transport?: Transport;
 }
 
 import { createContext } from 'react';
@@ -20,7 +20,7 @@ export const ClientContext = createContext<{
 
 export const KitProvider = ({
   chains,
-  transport,
+  transport = http(),
   children,
 }: KitProviderProps) => {
   const walletClient = createWalletClient({
@@ -47,13 +47,5 @@ export const KitProvider = ({
     </ClientContext.Provider>
   );
 };
-
-// export const useWalletClient = ():
-//   | ReturnType<typeof createWalletClient>
-//   | undefined => useContext(ClientContext).walletClient;
-
-// export const usePublicClient = ():
-//   | ReturnType<typeof createPublicClient>
-//   | undefined => useContext(ClientContext).publicClient;
 
 export const useClient = () => useContext(ClientContext);
