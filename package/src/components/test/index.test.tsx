@@ -1,4 +1,4 @@
-import { Button } from '../src/index';
+import { Button } from '../../index';
 import React from 'react';
 import renderer from 'react-test-renderer';
 
