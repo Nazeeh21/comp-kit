@@ -5,7 +5,7 @@ import { mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../package/src';
 
 const Comp = () => {
-  if (typeof window === 'undefined') return <ConnectButton />;
+  if (typeof window.ethereum === 'undefined') return <ConnectButton />;
   return (
     // @ts-expect-error This error is expected because we are mocking the window obejct on the server.
     <KitProvider chains={mainnet} transport={custom(window.ethereum)}>
