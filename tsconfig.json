@@ -69,10 +69,10 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "package/**/**/*.tsx",
+    "package/**/**/**/*.tsx",
     ".eslintrc.js",
     "jest.config.js",
     "stories/**.tsx"
   ],
-  "exclude": ["package/test/__snapshots__"]
+  "exclude": ["package/src/components/test/__snapshots__", "package/src/components/test/utils/index.ts"]
 }

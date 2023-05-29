@@ -78,7 +78,8 @@
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "viem": "^0.3.36"
   },
   "lint-staged": {
     "package/**/**.{js,ts,tsx}": "eslint --cache --cache-location .eslintcache --fix"
