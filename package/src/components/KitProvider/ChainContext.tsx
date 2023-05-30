@@ -1,6 +1,5 @@
-import { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { Chain } from 'viem';
-import React from 'react';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
@@ -9,6 +8,7 @@ export interface ChainContextProps {
 
 const ChainContext = createContext<ChainContextProps>({
   supportedChains: [],
+  initialChainId: undefined,
 });
 
 interface ChainContextProviderProps extends ChainContextProps {

@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useMemo } from 'react';
+import React, { ReactNode, useContext, useMemo, createContext } from 'react';
 import { Transport, createPublicClient, createWalletClient, http } from 'viem';
 import { Chain } from 'viem/chains';
 
@@ -9,8 +9,6 @@ export interface KitProviderProps {
   children: ReactNode;
   transport?: Transport;
 }
-
-import { createContext } from 'react';
 import { ChainContextProvider } from './ChainContext';
 
 export const ClientContext = createContext<{
