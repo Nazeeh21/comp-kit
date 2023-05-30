@@ -4,11 +4,14 @@ import { Chain } from 'viem/chains';
 
 export interface KitProviderProps {
   chains: Chain;
+  supportedChains?: Chain[];
+  initialChain?: Chain | number;
   children: ReactNode;
   transport?: Transport;
 }
 
 import { createContext } from 'react';
+import { ChainContextProvider } from './ChainContext';
 
 export const ClientContext = createContext<{
   walletClient: ReturnType<typeof createWalletClient> | undefined;
@@ -21,6 +24,8 @@ export const ClientContext = createContext<{
 export const KitProvider = ({
   chains,
   transport = http(),
+  supportedChains = [chains],
+  initialChain = chains,
   children,
 }: KitProviderProps) => {
   const walletClient = createWalletClient({
@@ -40,12 +45,23 @@ export const KitProvider = ({
           walletClient,
           publicClient,
         }),
-        []
+        [walletClient, publicClient]
       )}
     >
-      {children}
+      <ChainContextProvider
+        supportedChains={supportedChains}
+        initialChainId={initialChain}
+      >
+        {children}
+      </ChainContextProvider>
     </ClientContext.Provider>
   );
 };
 
-export const useClient = () => useContext(ClientContext);
+export const usePublicClient = ():
+  | ReturnType<typeof createPublicClient>
+  | undefined => useContext(ClientContext).publicClient;
+
+export const useWalletClient = ():
+  | ReturnType<typeof createWalletClient>
+  | undefined => useContext(ClientContext).walletClient;

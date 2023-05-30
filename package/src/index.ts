@@ -5,8 +5,10 @@ export { Select } from './components/Select/Select';
 export {
   KitProvider,
   KitProviderProps,
-  useClient,
+  usePublicClient,
+  useWalletClient,
 } from './components/KitProvider/KitProvider';
+export { SwitchNetworks } from './components/SwitchNetwork/SwitchNetwork';
 
 // Hooks
 export { useAddress } from './hooks/useAddress/index';

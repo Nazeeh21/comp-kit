@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import { useAddress } from '../../hooks/useAddress';
 import { Button } from '../Button/Button';
-import { useClient } from '../KitProvider/KitProvider';
+import { useWalletClient } from '../KitProvider/KitProvider';
 
 export const ConnectButton = () => {
-  const { walletClient } = useClient();
+  const walletClient = useWalletClient();
   const { setAddress } = useAddress();
 
   const clickHandler = useCallback(async () => {
