@@ -16,8 +16,9 @@ export const SwitchNetworks = () => {
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     console.log(e.target.value);
-    await switchChain(+e.target.value);
-    setValue(+e.target.value);
+    const newChainId = await switchChain(+e.target.value);
+    console.log({ newChainId });
+    !!newChainId && typeof newChainId === 'number' && setValue(newChainId);
   };
 
   return (

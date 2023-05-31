@@ -18,14 +18,13 @@ export const useSwitchChain = () => {
         console.log('Trying to add chain: ', { error });
         const chain = getChain(chainId);
         console.log('chain: ', { chain });
-        if (!chain) return;
+        if (!chain) return false;
 
         try {
           console.log('adding chain');
           await walletClient?.addChain({
             chain,
           });
-          return chainId;
         } catch (error) {
           console.log('Error while adding chain: ', { error });
           return false;
