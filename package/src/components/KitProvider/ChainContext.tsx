@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import { Chain } from 'viem';
+import { useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
@@ -20,6 +21,20 @@ export const ChainContextProvider = ({
   initialChainId,
   children,
 }: ChainContextProviderProps) => {
+  const walletClient = useWalletClient();
+
+  useEffect(() => {
+    const switchChain = async () => {
+      await walletClient?.switchChain({
+        id:
+          (typeof initialChainId === 'number'
+            ? initialChainId
+            : initialChainId?.id) ?? supportedChains[0].id,
+      });
+    };
+    initialChainId && void switchChain();
+  }, [initialChainId, walletClient]);
+
   return (
     <ChainContext.Provider
       value={useMemo(

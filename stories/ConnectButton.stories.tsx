@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { custom } from 'viem';
-import { goerli, mainnet } from 'viem/chains';
+import { mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../package/src';
 
 const Comp = () => {

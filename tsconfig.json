@@ -70,9 +70,13 @@
   },
   "include": [
     "package/**/**/**/*.tsx",
+    "package/**/*.ts",
     ".eslintrc.js",
     "jest.config.js",
     "stories/**.tsx"
   ],
-  "exclude": ["package/src/components/test/__snapshots__", "package/src/components/test/utils/index.ts"]
+  "exclude": [
+    "package/src/components/test/__snapshots__",
+    "package/src/components/test/utils/index.ts"
+  ]
 }

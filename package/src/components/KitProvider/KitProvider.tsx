@@ -1,13 +1,25 @@
-import React, { ReactNode, useContext, useMemo, createContext } from 'react';
-import { Transport, createPublicClient, createWalletClient, http } from 'viem';
+import React, {
+  ReactNode,
+  useContext,
+  useMemo,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  Transport,
+  createPublicClient,
+  createWalletClient,
+  custom,
+} from 'viem';
 import { Chain } from 'viem/chains';
 
 export interface KitProviderProps {
   chains: Chain;
   supportedChains?: Chain[];
-  initialChain?: Chain | number;
+  initialChain?: Chain | number | undefined;
   children: ReactNode;
-  transport?: Transport;
+  transport: Transport;
 }
 import { ChainContextProvider } from './ChainContext';
 
@@ -21,15 +33,26 @@ export const ClientContext = createContext<{
 
 export const KitProvider = ({
   chains,
-  transport = http(),
+  transport,
   supportedChains = [chains],
-  initialChain = chains,
+  initialChain,
   children,
 }: KitProviderProps) => {
-  const walletClient = createWalletClient({
-    chain: chains,
-    transport,
-  });
+  const [walletClient, setWalletClient] = useState<
+    ReturnType<typeof createWalletClient> | undefined
+  >();
+
+  useEffect(() => {
+    if (typeof transport === typeof custom) {
+      const client = createWalletClient({
+        chain: chains,
+        transport,
+      });
+      setWalletClient(client);
+    } else {
+      setWalletClient(undefined);
+    }
+  }, [transport]);
 
   const publicClient = createPublicClient({
     chain: chains,
