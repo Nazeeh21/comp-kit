@@ -1,14 +1,27 @@
-import React, { ReactNode, useContext, useMemo } from 'react';
-import { Transport, createPublicClient, createWalletClient, http } from 'viem';
+import React, {
+  ReactNode,
+  useContext,
+  useMemo,
+  createContext,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  Transport,
+  createPublicClient,
+  createWalletClient,
+  custom,
+} from 'viem';
 import { Chain } from 'viem/chains';
 
 export interface KitProviderProps {
   chains: Chain;
+  supportedChains?: Chain[];
+  initialChain?: Chain | number | undefined;
   children: ReactNode;
-  transport?: Transport;
+  transport: Transport;
 }
-
-import { createContext } from 'react';
+import { ChainContextProvider } from './ChainContext';
 
 export const ClientContext = createContext<{
   walletClient: ReturnType<typeof createWalletClient> | undefined;
@@ -20,13 +33,26 @@ export const ClientContext = createContext<{
 
 export const KitProvider = ({
   chains,
-  transport = http(),
+  transport,
+  supportedChains = [chains],
+  initialChain,
   children,
 }: KitProviderProps) => {
-  const walletClient = createWalletClient({
-    chain: chains,
-    transport,
-  });
+  const [walletClient, setWalletClient] = useState<
+    ReturnType<typeof createWalletClient> | undefined
+  >();
+
+  useEffect(() => {
+    if (typeof transport === typeof custom) {
+      const client = createWalletClient({
+        chain: chains,
+        transport,
+      });
+      setWalletClient(client);
+    } else {
+      setWalletClient(undefined);
+    }
+  }, [transport]);
 
   const publicClient = createPublicClient({
     chain: chains,
@@ -40,12 +66,23 @@ export const KitProvider = ({
           walletClient,
           publicClient,
         }),
-        []
+        [walletClient, publicClient]
       )}
     >
-      {children}
+      <ChainContextProvider
+        supportedChains={supportedChains}
+        initialChainId={initialChain}
+      >
+        {children}
+      </ChainContextProvider>
     </ClientContext.Provider>
   );
 };
 
-export const useClient = () => useContext(ClientContext);
+export const usePublicClient = ():
+  | ReturnType<typeof createPublicClient>
+  | undefined => useContext(ClientContext).publicClient;
+
+export const useWalletClient = ():
+  | ReturnType<typeof createWalletClient>
+  | undefined => useContext(ClientContext).walletClient;
