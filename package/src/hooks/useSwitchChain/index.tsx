@@ -19,6 +19,14 @@ export const useSwitchChain = () => {
       // handle chain change
       setSwitchingToChainId(null);
     });
+
+    return () => {
+      // @ts-expect-error trying to remove eventLister on window.ethereum object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      window.ethereum.removeListener('chainChanged', () =>
+        setSwitchingToChainId(null)
+      );
+    };
   }, [publicClient]);
 
   const switchChain = async (chainId: number) => {
