@@ -2,32 +2,29 @@ import React from 'react';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
 import { useCurrentChain } from '../../utils/utils';
 import { useSupportedChains } from '../KitProvider/ChainContext';
-import { Select } from '../Select/Select';
+import { Select } from '../ui/Select/Select';
+import { Chain } from 'viem/chains';
 
 export const SwitchNetworks = () => {
   const supportedChains = useSupportedChains();
   const { switchChain, switchingToChainId } = useSwitchChain();
   const currentChain = useCurrentChain();
-  const [value, setValue] = React.useState<number>(
-    currentChain ? currentChain.id : supportedChains[0].id
+  const [value, setValue] = React.useState<Chain>(
+    currentChain ? currentChain : supportedChains[0]
   );
 
-  const selectChangeHandler = async (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    console.log(e.target.value);
-    const newChainId = await switchChain(+e.target.value);
+  const selectChangeHandler = async (value: Chain) => {
+    console.log('value: ', value);
+    const newChainId = await switchChain(+value.id);
     console.log({ newChainId });
-    !!newChainId && typeof newChainId === 'number' && setValue(newChainId);
+    !!newChainId && typeof newChainId === 'number' && setValue(value);
   };
 
   return (
-    <Select value={value} onChange={selectChangeHandler}>
-      {supportedChains.map(chain => (
-        <option key={chain.id} value={chain.id}>
-          {chain.name} {chain.id === switchingToChainId && '(switching)'}
-        </option>
-      ))}
-    </Select>
+    <Select
+      value={value}
+      onChange={selectChangeHandler}
+      options={supportedChains}
+    />
   );
 };
