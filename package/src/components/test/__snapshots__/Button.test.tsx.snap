@@ -2,7 +2,7 @@
 
 exports[`index renders button 1`] = `
 <button
-  className="c-jjZzQc"
+  className="c-gJLZyQ c-gJLZyQ-hvqSqD-color-light"
 >
   Test Button
 </button>
