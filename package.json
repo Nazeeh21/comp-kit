@@ -78,9 +78,9 @@
     "storybook": "^7.0.12",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "utf-8-validate": "^6.0.3",
     "tslib": "^2.4.0",
     "typescript": "^5.0.4",
+    "utf-8-validate": "^6.0.3",
     "viem": "^0.3.39"
   },
   "lint-staged": {
@@ -139,5 +139,6 @@
   },
   "readme": "ERROR: No README data found!",
   "dependencies": {
+    "lucide-react": "^0.233.0"
   }
 }
