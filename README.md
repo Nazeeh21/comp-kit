@@ -1,6 +1,6 @@
 # Comp-kit
 
-This is a UI library consisting of components for web3 and web2 users.
+A UI component library for web3
 
 List of compoents:
 - Connect Wallet
