@@ -22,6 +22,8 @@ export const SwitchNetworks = () => {
 
   return (
     <Select
+      currentChain={value}
+      switching={switchingToChainId}
       value={value}
       onChange={selectChangeHandler}
       options={supportedChains}

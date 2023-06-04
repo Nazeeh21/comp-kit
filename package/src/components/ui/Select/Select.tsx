@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { Container, Value, Option, Options } from './styles';
+import {
+  Container,
+  Value,
+  Option,
+  Options,
+  PulseContainer,
+  StaticPulse,
+  Pulse,
+} from './styles';
 import { Chain } from 'viem/chains';
 
 export type SelectOption = {
@@ -9,6 +17,8 @@ export type SelectOption = {
 };
 
 type SingleSelectProps = {
+  currentChain?: Chain;
+  switching?: number | null | undefined;
   value?: Chain;
   onChange: (value: Chain) => void;
   variant?: 'dark' | 'light';
@@ -16,6 +26,8 @@ type SingleSelectProps = {
 };
 
 export function Select({
+  currentChain,
+  switching,
   variant = 'light',
   value,
   onChange,
@@ -79,7 +91,6 @@ export function Select({
       container?.removeEventListener('keydown', handler);
     };
   }, [isOpen, highlightedIndex, options, selectOption]);
-
   return (
     <Container
       color={variant}
@@ -110,8 +121,19 @@ export function Select({
                 opacity={isOptionSelected(option) ? 1 : 0}
               />
             </div>
-
             {option.name}
+            {switching === option.id && (
+              <PulseContainer>
+                <StaticPulse status="pending" />
+                <Pulse status="pending" />
+              </PulseContainer>
+            )}
+            {currentChain?.id === option.id && (
+              <PulseContainer>
+                <StaticPulse status="confirm" />
+                <Pulse status="confirm" />
+              </PulseContainer>
+            )}
           </Option>
         ))}
       </Options>

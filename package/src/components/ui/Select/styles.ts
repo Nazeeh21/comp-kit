@@ -1,4 +1,4 @@
-import { styled } from '@stitches/react';
+import { styled, keyframes } from '@stitches/react';
 
 export const Container = styled('div', {
   position: 'relative',
@@ -109,6 +109,7 @@ export const Option = styled('li', {
   borderRadius: '0.25em',
   display: 'flex',
   gap: '0.5em',
+  justifyContent: 'flex-start',
   alignItems: 'center',
   variants: {
     color: {
@@ -183,4 +184,61 @@ export const RemoveButton = styled('span', {
   fontSize: '1.2em',
   color: '#777',
   marginTop: '0.1em',
+});
+
+export const PulseContainer = styled('div', {
+  height: '0.5em',
+  width: '0.5em',
+  marginLeft: 'auto',
+  position: 'relative',
+});
+
+export const StaticPulse = styled('div', {
+  height: '100%',
+  width: '100%',
+  borderRadius: '999px',
+  zIndex: '100',
+  variants: {
+    status: {
+      pending: {
+        backgroundColor: 'yellow',
+      },
+      confirm: {
+        backgroundColor: 'green',
+      },
+    },
+  },
+});
+
+const scaleUp = keyframes({
+  '0%, 50%': {
+    transform: 'scale(1)',
+    opacity: '0',
+  },
+  '100%': {
+    transform: 'scale(1.5)',
+    opacity: '1',
+  },
+});
+
+export const Pulse = styled('div', {
+  height: '100%',
+  width: '100%',
+  borderRadius: '999px',
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  zIndex: '99',
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  animation: `${scaleUp} 1s ease-in-out alternate infinite`,
+  variants: {
+    status: {
+      pending: {
+        backgroundColor: 'LightYellow',
+      },
+      confirm: {
+        backgroundColor: 'LightGreen',
+      },
+    },
+  },
 });
