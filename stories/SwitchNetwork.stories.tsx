@@ -14,7 +14,7 @@ const Comp = () => {
       // @ts-expect-error This error is expected because we are mocking the window obejct on the server.
       transport={custom(window.ethereum)}
       supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
-      initialChain={goerli}
+      // initialChain={goerli}
     >
       <SwitchNetworks />
     </KitProvider>
