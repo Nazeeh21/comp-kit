@@ -1,5 +1,8 @@
 import { styled, keyframes } from '@stitches/react';
 
+const _DarkBackgroundColor = '#222122';
+const _LightBackgroundColor = '#f9fdfe';
+
 export const Container = styled('div', {
   position: 'relative',
   width: '10em',
@@ -19,12 +22,12 @@ export const Container = styled('div', {
   variants: {
     color: {
       dark: {
-        backgroundColor: 'black',
+        backgroundColor: _DarkBackgroundColor,
         color: 'white',
         borderColor: 'rgba(255,255,255,0.4)',
       },
       light: {
-        backgroundColor: 'white',
+        backgroundColor: _LightBackgroundColor,
         color: 'black',
       },
     },
@@ -90,10 +93,10 @@ export const Options = styled('ul', {
   variants: {
     color: {
       dark: {
-        backgroundColor: 'black',
+        backgroundColor: _DarkBackgroundColor,
       },
       light: {
-        backgroundColor: 'white',
+        backgroundColor: _LightBackgroundColor,
       },
     },
   },

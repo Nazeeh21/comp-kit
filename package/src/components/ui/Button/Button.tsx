@@ -1,5 +1,8 @@
 import { styled } from '@stitches/react';
 
+const _DarkBackgroundColor = '#222122';
+const _LightBackgroundColor = '#f9fdfe';
+
 export const Button = styled('button', {
   backgroundColor: 'white',
   borderRadius: '6px',
@@ -14,7 +17,7 @@ export const Button = styled('button', {
   variants: {
     color: {
       dark: {
-        backgroundColor: 'black',
+        backgroundColor: _DarkBackgroundColor,
         color: 'white',
         '&:hover': {
           backgroundColor: '#1b1a1b',
@@ -25,7 +28,7 @@ export const Button = styled('button', {
         },
       },
       light: {
-        backgroundColor: 'white',
+        backgroundColor: _LightBackgroundColor,
         color: 'black',
         '&:hover': {
           backgroundColor: '#f5f5f5',

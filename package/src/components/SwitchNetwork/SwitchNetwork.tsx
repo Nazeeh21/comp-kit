@@ -22,6 +22,7 @@ export const SwitchNetworks = () => {
 
   return (
     <Select
+      variant="light"
       currentChain={value}
       switching={switchingToChainId}
       value={value}
