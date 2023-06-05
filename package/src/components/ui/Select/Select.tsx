@@ -135,8 +135,6 @@ export function Select({
                 <Pulse status="confirm" />
               </PulseContainer>
             )}
-
-            {option.name}
           </Option>
         ))}
       </Options>
