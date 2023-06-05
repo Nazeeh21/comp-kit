@@ -2,7 +2,7 @@
 
 exports[`test ConnectButton renders ConnectButton 1`] = `
 <button
-  className="c-gJLZyQ c-gJLZyQ-hvqSqD-color-light"
+  className="c-gJLZyQ c-gJLZyQ-dRTyXt-color-light"
   onClick={[Function]}
 >
   Connect Wallet
