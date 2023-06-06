@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useAddress } from '../../hooks/useAddress';
-import { Button } from '../Button/Button';
+import { Button } from '../ui/Button/Button';
 import { useWalletClient } from '../KitProvider/KitProvider';
 
 export const ConnectButton = () => {
