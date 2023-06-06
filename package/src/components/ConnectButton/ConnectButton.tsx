@@ -1,20 +1,32 @@
-import React, { useCallback } from 'react';
-import { useAddress } from '../../hooks/useAddress';
+import React, { useState } from 'react';
+import { useMetaMaskWallet } from '../Wallets/metaMaskWallet';
+import { useWalletConnectWallet } from '../Wallets/wallectConnectWallet';
 import { Button } from '../ui/Button/Button';
-import { useWalletClient } from '../KitProvider/KitProvider';
+import { Modal } from '../ui/Modal/Modal';
 
 export const ConnectButton = () => {
-  const walletClient = useWalletClient();
-  const { setAddress } = useAddress();
+  const [isOpen, setIsOpen] = useState(false);
+  const { name: metaMaskName, connect: connectMetamask } = useMetaMaskWallet();
+  const {
+    name: walletConnectName,
+    connect: connectWalletConnect,
+  } = useWalletConnectWallet();
 
-  const clickHandler = useCallback(async () => {
-    if (!walletClient) {
-      return;
-    }
-    const accounts = await walletClient.requestAddresses();
-    console.log(accounts);
-    setAddress(accounts);
-  }, [walletClient, setAddress]);
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
-  return <Button onClick={clickHandler}>Connect Wallet</Button>;
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <>
+      <Button onClick={openModal}>Connect Wallet</Button>
+      <Modal isOpen={isOpen} onClose={closeModal}>
+        <Button onClick={connectMetamask}>{metaMaskName}</Button>
+        <Button onClick={connectWalletConnect}>{walletConnectName}</Button>
+      </Modal>
+    </>
+  );
 };

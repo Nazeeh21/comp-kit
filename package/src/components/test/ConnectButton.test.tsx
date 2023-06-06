@@ -1,6 +1,5 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { custom } from 'viem';
 import { mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../../index';
 import { requestObject } from './utils';
@@ -20,8 +19,7 @@ describe('test ConnectButton', () => {
   };
 
   const Comp: React.FC = () => (
-    // @ts-expect-error - we are mocking window.ethereum object
-    <KitProvider chains={mainnet} transport={custom(window.ethereum)}>
+    <KitProvider initialChain={mainnet} supportedChains={[mainnet]}>
       <ConnectButton />
     </KitProvider>
   );
