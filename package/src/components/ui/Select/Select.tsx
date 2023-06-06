@@ -33,8 +33,8 @@ export function Select({
   onChange,
   options,
 }: SingleSelectProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [highlightedIndex, setHighlightedindex] = useState(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [highlightedIndex, setHighlightedindex] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -132,7 +132,6 @@ export function Select({
             {currentChain?.id === option.id && (
               <PulseContainer>
                 <StaticPulse status="confirm" />
-                <Pulse status="confirm" />
               </PulseContainer>
             )}
           </Option>
