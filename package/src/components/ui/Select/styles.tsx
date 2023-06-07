@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled, keyframes } from '@stitches/react';
 
 const _DarkBackgroundColor = '#222122';
@@ -245,3 +246,17 @@ export const Pulse = styled('div', {
     },
   },
 });
+
+export const PendingPulse = () => (
+  <PulseContainer>
+    <StaticPulse status="pending" />
+    <Pulse status="pending" />
+  </PulseContainer>
+);
+
+export const ConfirmPulse = () => (
+  <PulseContainer>
+    <StaticPulse status="confirm" />
+    <Pulse status="confirm" />
+  </PulseContainer>
+);

@@ -83,8 +83,7 @@
     "utf-8-validate": "^6.0.3",
     "@walletconnect/ethereum-provider": "^2.7.8",
     "@web3modal/standalone": "^2.4.3",
-    "viem": "^0.3.39",
-    "lucide-react": "^0.233.0"
+    "viem": "^0.3.39"
   },
   "lint-staged": {
     "package/**/**.{js,ts,tsx}": "eslint --cache --cache-location .eslintcache --fix"
@@ -141,5 +140,7 @@
     "access": "public"
   },
   "readme": "ERROR: No README data found!",
-  "dependencies": {}
+  "dependencies": {
+    "lucide-react": "^0.233.0"
+  }
 }

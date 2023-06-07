@@ -8,6 +8,7 @@ import React, {
 import { createPublicClient, createWalletClient, http } from 'viem';
 import { Chain } from 'viem/chains';
 import { ChainContextProvider } from './ChainContext';
+import { AddressContextProvider } from './AddressContext';
 
 export interface KitProviderProps {
   supportedChains: Chain[];
@@ -70,7 +71,7 @@ export const KitProvider = ({
         supportedChains={supportedChains}
         initialChainId={initialChain}
       >
-        {children}
+        <AddressContextProvider>{children}</AddressContextProvider>
       </ChainContextProvider>
     </ClientContext.Provider>
   );

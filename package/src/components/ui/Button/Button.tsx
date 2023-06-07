@@ -8,6 +8,7 @@ export const Button = styled('button', {
   borderRadius: '6px',
   fontSize: '14px',
   padding: '10px 15px',
+  width: 'fit-content',
   cursor: 'pointer',
   border: 'none',
   '&:hover': {

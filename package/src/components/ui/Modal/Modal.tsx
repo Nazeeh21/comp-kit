@@ -1,5 +1,6 @@
 import React from 'react';
 import { CloseButton, ModalContainer, Overlay } from './styles';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -29,7 +30,9 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <Overlay onClick={handleClickOutside}>
       <ModalContainer>
-        <CloseButton onClick={onClose}>Close</CloseButton>
+        <CloseButton onClick={onClose}>
+          <X />
+        </CloseButton>
         {children}
       </ModalContainer>
     </Overlay>

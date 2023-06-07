@@ -1,51 +1,74 @@
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
-// import {} from '@walletconnect/web3-provider';
 import { createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
-import { useAddress } from '../../hooks/useAddress';
+import {
+  useSetAddress,
+  useSetConnectWalletError,
+  useSetWalletConnecting,
+  useSetWalletProvider,
+} from '../KitProvider/AddressContext';
 import { useSetWalletClient } from '../KitProvider/KitProvider';
 
 const projectId = '5a13f1a5297da2cd768519079890e4fe';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+interface useWalletConnectWalletProps {
+  onClose?: () => void;
+}
 
-export const useWalletConnectWallet = () => {
-  const { setAddress } = useAddress();
+export const useWalletConnectWallet = ({
+  onClose,
+}: useWalletConnectWalletProps) => {
   const setWalletClient = useSetWalletClient();
+
+  const setAddress = useSetAddress(),
+    setConnecting = useSetWalletConnecting(),
+    setError = useSetConnectWalletError(),
+    setWalletProvider = useSetWalletProvider();
+
   return {
     id: 1,
     name: 'WalletConnect',
     connect: async () => {
-      const provider = await EthereumProvider.init({
-        chains: [1],
-        projectId,
-        events: ['chainChanged', 'accountsChanged'],
-        methods: ['eth_requestAccounts'],
-        rpcMap: {
-          1: 'https://cloudflare-eth.com',
-        },
-        showQrModal: true,
-      });
+      setConnecting(true);
+      setWalletProvider('WalletConnect');
+      try {
+        const provider = await EthereumProvider.init({
+          chains: [1],
+          projectId,
+          events: ['chainChanged', 'accountsChanged'],
+          methods: ['eth_requestAccounts'],
+          rpcMap: {
+            1: 'https://cloudflare-eth.com',
+          },
+          showQrModal: true,
+        });
 
-      provider.on('display_uri', (uri: string) => {
-        console.log('URI: ', uri);
-      });
+        provider.on('display_uri', (uri: string) => {
+          console.log('URI: ', uri);
+        });
 
-      await provider.connect();
+        await provider.connect();
 
-      const walletClient = createWalletClient({
-        chain: mainnet,
-        transport: custom(provider),
-      });
+        const walletClient = createWalletClient({
+          chain: mainnet,
+          transport: custom(provider),
+        });
 
-      setWalletClient(walletClient);
+        setWalletClient(walletClient);
 
-      if (!walletClient) {
-        return;
+        if (!walletClient) {
+          return;
+        }
+        const accounts = await walletClient.requestAddresses();
+        console.log(accounts);
+        setAddress(accounts);
+        onClose?.();
+      } catch (error: unknown) {
+        console.log('Error while connecting WalletConnect', error);
+        setError(error as Error);
+      } finally {
+        setConnecting(false);
       }
-      const accounts = await walletClient.requestAddresses();
-      console.log(accounts);
-      setAddress(accounts);
     },
   };
 };

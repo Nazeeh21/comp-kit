@@ -11,13 +11,6 @@ declare global {
 }
 
 describe('test ConnectButton', () => {
-  // @ts-expect-error - we are mocking window object
-  const window: Window = {
-    ethereum: {
-      request: requestObject,
-    },
-  };
-
   const Comp: React.FC = () => (
     <KitProvider initialChain={mainnet} supportedChains={[mainnet]}>
       <ConnectButton />

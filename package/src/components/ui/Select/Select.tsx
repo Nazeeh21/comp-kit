@@ -1,15 +1,14 @@
+import { Check, ChevronDown } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import { Chain } from 'viem/chains';
 import {
+  ConfirmPulse,
   Container,
-  Value,
   Option,
   Options,
-  PulseContainer,
-  StaticPulse,
-  Pulse,
+  PendingPulse,
+  Value,
 } from './styles';
-import { Chain } from 'viem/chains';
 
 export type SelectOption = {
   label: string;
@@ -123,18 +122,8 @@ export function Select({
               />
             </div>
             {option.name}
-            {switching === option.id && (
-              <PulseContainer>
-                <StaticPulse status="pending" />
-                <Pulse status="pending" />
-              </PulseContainer>
-            )}
-            {currentChain?.id === option.id && (
-              <PulseContainer>
-                <StaticPulse status="confirm" />
-                <Pulse status="confirm" />
-              </PulseContainer>
-            )}
+            {switching === option.id && <PendingPulse />}
+            {currentChain?.id === option.id && <ConfirmPulse />}
           </Option>
         ))}
       </Options>

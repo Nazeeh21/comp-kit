@@ -17,21 +17,29 @@ export const ModalContainer = styled('div', {
   backgroundColor: '#fff',
   padding: '0px',
   borderRadius: '4px',
-  width: '50%', // Default width for larger screens
-  height: '50%', // Default height for larger screens
+  width: '35%', // Default width for larger screens
+  height: 'fit-content', // Default height for larger screens
+  maxWidth: '50%', // Max width for larger screens
+  maxHeight: '50%', // Max height for larger screens
   overflow: 'auto', // Enable scrolling for overflowing content
   '@media(max-width: 767px)': {
     width: '80%', // Width for mobile devices
-    height: '90%', // Height for mobile devices
+    minHeight: '20%',
+    height: 'fit-content', // Height for mobile devices
+    maxHeight: '80%', // Max height for mobile devices
   },
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.1rem',
+  paddingBottom: '0.75rem',
 });
 
 export const CloseButton = styled('button', {
   position: 'relative',
-  top: '9px',
-  right: '9px',
+  top: '0px',
+  right: '2px',
   marginLeft: 'auto',
   background: 'none',
   border: 'none',
