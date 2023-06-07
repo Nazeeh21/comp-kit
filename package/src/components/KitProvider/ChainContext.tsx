@@ -4,12 +4,12 @@ import { useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
-  initialChainId?: Chain | number;
+  initialChain?: Chain | number;
 }
 
 const ChainContext = createContext<ChainContextProps>({
   supportedChains: [],
-  initialChainId: undefined,
+  initialChain: undefined,
 });
 
 interface ChainContextProviderProps extends ChainContextProps {
@@ -18,7 +18,7 @@ interface ChainContextProviderProps extends ChainContextProps {
 
 export const ChainContextProvider = ({
   supportedChains,
-  initialChainId,
+  initialChain,
   children,
 }: ChainContextProviderProps) => {
   const walletClient = useWalletClient();
@@ -27,25 +27,23 @@ export const ChainContextProvider = ({
     const switchChain = async () => {
       await walletClient?.switchChain({
         id:
-          (typeof initialChainId === 'number'
-            ? initialChainId
-            : initialChainId?.id) ?? supportedChains[0].id,
+          (typeof initialChain === 'number'
+            ? initialChain
+            : initialChain?.id) ?? supportedChains[0].id,
       });
     };
-    initialChainId && void switchChain();
-  }, [initialChainId, walletClient]);
+    initialChain && void switchChain();
+  }, [initialChain, walletClient]);
 
   return (
     <ChainContext.Provider
       value={useMemo(
         () => ({
           supportedChains,
-          initialChainId:
-            typeof initialChainId === 'number'
-              ? initialChainId
-              : initialChainId?.id,
+          initialChain:
+            typeof initialChain === 'number' ? initialChain : initialChain?.id,
         }),
-        [supportedChains, initialChainId]
+        [supportedChains, initialChain]
       )}
     >
       {children}
@@ -56,4 +54,4 @@ export const ChainContextProvider = ({
 export const useSupportedChains = () =>
   useContext(ChainContext).supportedChains;
 
-export const useInitialChainId = () => useContext(ChainContext).initialChainId;
+export const useInitialChainId = () => useContext(ChainContext).initialChain;

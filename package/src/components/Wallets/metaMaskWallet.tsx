@@ -9,6 +9,7 @@ import {
   useSetWalletConnecting,
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
+import { useCurrentChain } from '../../utils/utils';
 
 type EthereumProvider = { request: BaseRpcRequests['request'] };
 
@@ -21,6 +22,7 @@ export const useMetaMaskWallet = ({ onClose }: useMetaMaskWalletProps) => {
     setConnecting = useSetWalletConnecting(),
     setError = useSetConnectWalletError(),
     setWalletProvider = useSetWalletProvider();
+  const currentChain = useCurrentChain();
 
   const setWalletClient = useSetWalletClient();
 
@@ -39,7 +41,7 @@ export const useMetaMaskWallet = ({ onClose }: useMetaMaskWalletProps) => {
       setConnecting(true);
       try {
         const walletClient = createWalletClient({
-          chain: mainnet,
+          chain: currentChain ?? mainnet,
           transport: custom((window.ethereum as unknown) as EthereumProvider),
         });
         console.log({ walletClient });

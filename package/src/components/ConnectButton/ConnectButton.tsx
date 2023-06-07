@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import {
   useAddress,
+  useDisconnect,
   useWalletConnecting,
   useWalletProvider,
   useWalletStatus,
@@ -19,6 +20,7 @@ export const ConnectButton = () => {
   const address = useAddress();
   const connecting = useWalletConnecting();
   const walletProvider = useWalletProvider();
+  const disconnect = useDisconnect();
 
   const openModal = () => {
     setIsOpen(true);
@@ -42,7 +44,7 @@ export const ConnectButton = () => {
     return (
       <div>
         <div>Connected address: {address}</div>
-        <Button>Disconnect</Button>
+        <Button onClick={disconnect}>Disconnect</Button>
       </div>
     );
   }

@@ -6,8 +6,7 @@ import { ConnectButton, KitProvider } from '../package/src';
 const Comp = () => {
   if (typeof window.ethereum === 'undefined') return <ConnectButton />;
   return (
-    // @ts-expect-error This error is expected because we are mocking the window obejct on the server.
-    <KitProvider supportedChains={[mainnet]}>
+    <KitProvider initialChain={mainnet} supportedChains={[mainnet]}>
       <ConnectButton />
     </KitProvider>
   );

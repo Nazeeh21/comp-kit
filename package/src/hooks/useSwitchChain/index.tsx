@@ -49,10 +49,14 @@ export const useSwitchChain = () => {
             chain,
           });
         } catch (error) {
-          return false;
+          console.error('Error while adding chain', error);
+          throw new Error(`Error while adding chain ${chainId}`);
         }
       }
-      return false;
+      console.error('Error while switching chain', error);
+      throw new Error(`Error while switching chain to ${chainId}`);
+    } finally {
+      setSwitchingToChainId(null);
     }
   };
 

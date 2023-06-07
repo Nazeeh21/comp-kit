@@ -24,6 +24,9 @@ interface AddressContextProps {
   setWalletProvider: React.Dispatch<
     React.SetStateAction<'MetaMask' | 'WalletConnect' | undefined>
   >;
+  isConnected: boolean;
+  setConnected: React.Dispatch<React.SetStateAction<boolean>>;
+  disconnectWallet: () => void;
 }
 
 const AddressContext = createContext<AddressContextProps>({
@@ -36,6 +39,9 @@ const AddressContext = createContext<AddressContextProps>({
   status: 'disconnected',
   walletProvider: undefined,
   setWalletProvider: () => undefined,
+  isConnected: false,
+  setConnected: () => undefined,
+  disconnectWallet: () => undefined,
 });
 
 interface AddressContextProviderProps {
@@ -47,6 +53,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
 }) => {
   const [address, setAddress] = useState<Address[] | undefined>();
   const [connecting, setConnecting] = useState(false);
+  const [isConnected, setConnected] = useState(false);
   const [error, setError] = useState<Error>();
   const [status, setStatus] = useState<
     'connecting' | 'connected' | 'disconnected' | 'error'
@@ -57,6 +64,13 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
 
   const walletClient = useWalletClient();
   const setWalletClient = useSetWalletClient();
+
+  const disconnectWallet = () => {
+    setAddress(undefined);
+    setWalletProvider(undefined);
+    setWalletClient(undefined);
+    setConnected(false);
+  };
 
   useEffect(() => {
     void (async () => {
@@ -79,15 +93,19 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
       setWalletClient(walletClient);
     }
   }, []);
+
   useEffect(() => {
     if (connecting) {
       setStatus('connecting');
     } else if (address && !error) {
       setStatus('connected');
+      setConnected(true);
     } else if (error) {
       setStatus('error');
+      setConnected(false);
     } else {
       setStatus('disconnected');
+      setConnected(false);
     }
   }, [connecting, address, error]);
 
@@ -104,8 +122,20 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
           status,
           walletProvider,
           setWalletProvider,
+          isConnected,
+          setConnected,
+          disconnectWallet,
         }),
-        [address, connecting, error, status, walletProvider]
+        [
+          address,
+          connecting,
+          error,
+          status,
+          walletProvider,
+          isConnected,
+          setConnected,
+          disconnectWallet,
+        ]
       )}
     >
       {children}
@@ -134,3 +164,9 @@ export const useWalletProvider = () =>
 
 export const useSetWalletProvider = () =>
   useContext(AddressContext).setWalletProvider;
+
+export const isConnected = () => useContext(AddressContext).isConnected;
+
+export const useSetConnected = () => useContext(AddressContext).setConnected;
+
+export const useDisconnect = () => useContext(AddressContext).disconnectWallet;

@@ -8,6 +8,7 @@ import {
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
 import { useSetWalletClient } from '../KitProvider/KitProvider';
+import { useCurrentChain } from '../../utils/utils';
 
 const projectId = '5a13f1a5297da2cd768519079890e4fe';
 
@@ -24,6 +25,8 @@ export const useWalletConnectWallet = ({
     setConnecting = useSetWalletConnecting(),
     setError = useSetConnectWalletError(),
     setWalletProvider = useSetWalletProvider();
+
+  const currentChain = useCurrentChain();
 
   return {
     id: 1,
@@ -50,7 +53,7 @@ export const useWalletConnectWallet = ({
         await provider.connect();
 
         const walletClient = createWalletClient({
-          chain: mainnet,
+          chain: currentChain ?? mainnet,
           transport: custom(provider),
         });
 
