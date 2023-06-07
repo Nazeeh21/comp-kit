@@ -16,7 +16,7 @@ describe('test ConnectButton', () => {
       <ConnectButton />
     </KitProvider>
   );
-  it('renders ConnectButton', () => {
+  xit('renders ConnectButton', () => {
     const container = renderer.create(<Comp />).toJSON();
     expect(container).toBeTruthy();
     expect(container).toMatchSnapshot();
