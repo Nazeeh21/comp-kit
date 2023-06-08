@@ -20,7 +20,7 @@ export interface KitProviderProps {
 export const ClientContext = createContext<{
   walletClient: ReturnType<typeof createWalletClient> | undefined;
   publicClient:
-    | Record<number, ReturnType<typeof createPublicClient>>
+    | Record<string, ReturnType<typeof createPublicClient>>
     | undefined;
   setWalletClient: React.Dispatch<
     React.SetStateAction<ReturnType<typeof createWalletClient> | undefined>
@@ -43,20 +43,20 @@ export const KitProvider = ({
   >();
 
   const [publicClient, setPublicClient] = useState<
-    Record<number, ReturnType<typeof createPublicClient>> | undefined
+    Record<string, ReturnType<typeof createPublicClient>> | undefined
   >();
 
   useEffect(() => {
     const tempPublicClient: Record<
-      number,
+      string,
       ReturnType<typeof createPublicClient>
-    > = [];
+    > = {};
     [...supportedChains, initialChain && initialChain].forEach(chain => {
       const client = createPublicClient({
         chain: chain ?? mainnet,
         transport: http(),
       });
-      tempPublicClient[chain.id] = client;
+      tempPublicClient[chain.name] = client;
     });
     setPublicClient(tempPublicClient);
   }, []);
@@ -83,7 +83,7 @@ export const KitProvider = ({
 };
 
 export const usePublicClient = ():
-  | Record<number, ReturnType<typeof createPublicClient>>
+  | Record<string, ReturnType<typeof createPublicClient>>
   | undefined => useContext(ClientContext).publicClient;
 
 export const useWalletClient = ():

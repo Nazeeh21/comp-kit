@@ -25,7 +25,7 @@ export function useCurrentChain(): chains.Chain | undefined {
 
   useEffect(() => {
     const fetchChain = async () => {
-      const block = await publicClient?.[supportedChains[0].id]?.getChainId();
+      const block = await publicClient?.[supportedChains[0].name]?.getChainId();
       setCurrentChain(getChain(block || 0));
       return;
     };
