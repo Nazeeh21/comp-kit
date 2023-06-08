@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import renderer, { act } from 'react-test-renderer';
 import { mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../../index';
 import { requestObject } from './utils';
@@ -16,8 +16,11 @@ describe('test ConnectButton', () => {
       <ConnectButton />
     </KitProvider>
   );
-  xit('renders ConnectButton', () => {
-    const container = renderer.create(<Comp />).toJSON();
+  xit('renders ConnectButton', async () => {
+    let container: unknown;
+    await act(() => {
+      container = renderer.create(<Comp />).toJSON();
+    });
     expect(container).toBeTruthy();
     expect(container).toMatchSnapshot();
   });

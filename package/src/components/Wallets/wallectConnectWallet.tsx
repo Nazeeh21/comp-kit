@@ -9,6 +9,7 @@ import {
 } from '../KitProvider/AddressContext';
 import { useSetWalletClient } from '../KitProvider/KitProvider';
 import { useCurrentChain } from '../../utils/utils';
+import { useSupportedChains } from '../KitProvider/ChainContext';
 
 const projectId = '5a13f1a5297da2cd768519079890e4fe';
 
@@ -26,6 +27,8 @@ export const useWalletConnectWallet = ({
     setError = useSetConnectWalletError(),
     setWalletProvider = useSetWalletProvider();
 
+  const supportedChains = useSupportedChains();
+
   const currentChain = useCurrentChain();
 
   return {
@@ -36,7 +39,7 @@ export const useWalletConnectWallet = ({
       setWalletProvider('WalletConnect');
       try {
         const provider = await EthereumProvider.init({
-          chains: [1],
+          chains: supportedChains.map(chain => chain.id),
           projectId,
           events: ['chainChanged', 'accountsChanged'],
           methods: ['eth_requestAccounts'],

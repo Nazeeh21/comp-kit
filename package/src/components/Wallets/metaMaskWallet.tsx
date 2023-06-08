@@ -31,24 +31,26 @@ export const useMetaMaskWallet = ({ onClose }: useMetaMaskWalletProps) => {
     name: 'MetaMask',
     connect: async () => {
       setError(undefined);
+
       setWalletProvider('MetaMask');
+
       if (typeof window === 'undefined' || !window.ethereum) {
         console.log('No window.ethereum');
         setError(new Error('No window.ethereum found'));
         return;
       }
-      console.log('Connecting MetaMask, setting connecting to true');
+
       setConnecting(true);
       try {
         const walletClient = createWalletClient({
           chain: currentChain ?? mainnet,
           transport: custom((window.ethereum as unknown) as EthereumProvider),
         });
-        console.log({ walletClient });
+
         setWalletClient(walletClient);
 
         const accounts = await walletClient.requestAddresses();
-        console.log(accounts);
+
         setAddress(accounts);
         onClose?.();
       } catch (error: unknown) {
