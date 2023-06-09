@@ -73,6 +73,25 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && window?.ethereum) {
+      window.ethereum.on('accountsChanged', accounts => {
+        console.log('accountsChanges', accounts);
+        if (accounts && accounts.length > 0) {
+          console.log('Setting address', accounts);
+          setAddress((accounts as unknown) as Address[]);
+        }
+      });
+    }
+    return () => {
+      // @ts-expect-error trying to remove eventLister on window.ethereum object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      window.ethereum.removeListener('accountsChanged', accounts => {
+        console.log('accountsChanges', accounts);
+      });
+    };
+  }, []);
+
+  useEffect(() => {
     void (async () => {
       const accounts = await walletClient?.getAddresses();
       if (accounts && accounts.length > 0) {
