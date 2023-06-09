@@ -48,7 +48,7 @@ export const ChainContextProvider = ({
         chainId && setCurrentChain(getChain(+chainId));
       }
     })();
-  }, [window?.ethereum]);
+  }, [window]);
 
   useEffect(() => {
     console.log('currentChain from chainContext: ', currentChain);
@@ -79,7 +79,7 @@ export const ChainContextProvider = ({
         setCurrentChain(getChain(+chainId));
       });
     };
-  }, [window?.ethereum]);
+  }, [window]);
 
   useEffect(() => {
     initialChain &&

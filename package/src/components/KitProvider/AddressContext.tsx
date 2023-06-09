@@ -117,7 +117,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
       });
       setWalletClient(walletClient);
     }
-  }, [window?.ethereum]);
+  }, [window]);
 
   useEffect(() => {
     if (connecting) {
