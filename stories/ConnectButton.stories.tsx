@@ -4,7 +4,7 @@ import { mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../package/src';
 
 const Comp = () => {
-  if (typeof window.ethereum === 'undefined') return <ConnectButton />;
+  if (typeof window?.ethereum === 'undefined') return <ConnectButton />;
   return (
     <KitProvider initialChain={mainnet} supportedChains={[mainnet]}>
       <ConnectButton />

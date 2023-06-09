@@ -4,7 +4,7 @@ import { arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
 import { KitProvider, SwitchNetworks } from '../package/src';
 
 const Comp = () => {
-  if (typeof window.ethereum === 'undefined')
+  if (typeof window?.ethereum === 'undefined')
     return <div>window.ethereum is undefined</div>;
 
   return (
