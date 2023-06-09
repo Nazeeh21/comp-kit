@@ -67,6 +67,9 @@ devDependencies:
   '@walletconnect/ethereum-provider':
     specifier: ^2.7.8
     version: 2.7.8(@web3modal/standalone@2.4.3)(bufferutil@4.0.7)(utf-8-validate@6.0.3)
+  '@walletconnect/modal':
+    specifier: ^2.4.5
+    version: 2.4.5(react@18.2.0)
   '@web3modal/standalone':
     specifier: ^2.4.3
     version: 2.4.3(react@18.2.0)
@@ -5413,6 +5416,15 @@ packages:
       tslib: 1.14.1
     dev: true
 
+  /@walletconnect/modal@2.4.5(react@18.2.0):
+    resolution: {integrity: sha512-t+sII7GIMsKDr0wvSJxzlpcbxw35WthuVpAqPlzMS7roSPmQZT18KO8Iu4ccLkNZF+ioptRTpBUKtk2eeuaqlQ==}
+    dependencies:
+      '@web3modal/core': 2.4.5(react@18.2.0)
+      '@web3modal/ui': 2.4.5(react@18.2.0)
+    transitivePeerDependencies:
+      - react
+    dev: true
+
   /@walletconnect/relay-api@1.0.9:
     resolution: {integrity: sha512-Q3+rylJOqRkO1D9Su0DPE3mmznbAalYapJ9qmzDgK28mYF9alcP3UwG/og5V7l7CFOqzCLi7B8BvcBUrpDj0Rg==}
     dependencies:
@@ -5542,6 +5554,15 @@ packages:
       - react
     dev: true
 
+  /@web3modal/core@2.4.5(react@18.2.0):
+    resolution: {integrity: sha512-iulOIW2irVaq+xWTzzM2xbRI4TCR0yTnV2Yz+ifIFl+r3OF3ZOC1jsy4jJnKL7/6e7p4NmmKJk0/w951KzCF5g==}
+    dependencies:
+      buffer: 6.0.3
+      valtio: 1.10.5(react@18.2.0)
+    transitivePeerDependencies:
+      - react
+    dev: true
+
   /@web3modal/standalone@2.4.3(react@18.2.0):
     resolution: {integrity: sha512-5ATXBoa4GGm+TIUSsKWsfWCJunv1XevOizpgTFhqyeGgRDmWhqsz9UIPzH/1mk+g0iJ/xqMKs5F6v9D2QeKxag==}
     dependencies:
@@ -5555,6 +5576,17 @@ packages:
     resolution: {integrity: sha512-J989p8CdtEhI9gZHf/rZ/WFqYlrAHWw9GmAhFoiNODwjAp0BoG/uoaPiijJMchXdngihZOjLGCQwDXU16DHiKg==}
     dependencies:
       '@web3modal/core': 2.4.3(react@18.2.0)
+      lit: 2.7.5
+      motion: 10.16.2
+      qrcode: 1.5.3
+    transitivePeerDependencies:
+      - react
+    dev: true
+
+  /@web3modal/ui@2.4.5(react@18.2.0):
+    resolution: {integrity: sha512-LvGjGL7vyQrUrrQOtFAK0SyxJs1yozOnJjP7s7gWXJa7wFWCE+kVjrhE8VrKbwx7nHe78IFA1rs7V1ncCirqVQ==}
+    dependencies:
+      '@web3modal/core': 2.4.5(react@18.2.0)
       lit: 2.7.5
       motion: 10.16.2
       qrcode: 1.5.3
