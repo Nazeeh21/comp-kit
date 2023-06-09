@@ -99,7 +99,11 @@ export function Select({
       onClick={() => setIsOpen(prev => !prev)}
       tabIndex={0}
     >
-      <Value>{value?.name}</Value>
+      {currentChain && options.includes(currentChain) ? (
+        <Value>{value?.name}</Value>
+      ) : (
+        <Value css={{ color: 'Red', borderColor: 'Red' }}>Wrong Network</Value>
+      )}
       <ChevronDown size={20} style={{ marginBottom: '0.05em' }} />
       <Options color={variant} className={isOpen ? 'show' : ''}>
         {options.map((option, index) => (

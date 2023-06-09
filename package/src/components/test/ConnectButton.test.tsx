@@ -6,7 +6,11 @@ import { requestObject } from './utils';
 
 declare global {
   interface Window {
-    ethereum: { request: typeof requestObject };
+    ethereum: {
+      on(arg0: string, arg1: (chainId: string) => void): unknown;
+      enable(): unknown;
+      request: typeof requestObject;
+    };
   }
 }
 

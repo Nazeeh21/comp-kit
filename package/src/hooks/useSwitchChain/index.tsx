@@ -4,16 +4,17 @@ import {
   useWalletClient,
 } from '../../components/KitProvider/KitProvider';
 import { getChain } from '../../utils/utils';
+import { useIsConnected } from '../../components/KitProvider/AddressContext';
 
 export const useSwitchChain = () => {
   const walletClient = useWalletClient();
   const publicClient = usePublicClient();
   const [switchingToChainId, setSwitchingToChainId] = useState<number | null>();
+  const isConnected = useIsConnected();
 
   useEffect(() => {
     if (!window.ethereum) return;
 
-    // @ts-expect-error trying to add eventLister on window.ethereum object
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     window.ethereum.on('chainChanged', () => {
       // handle chain change
@@ -30,6 +31,7 @@ export const useSwitchChain = () => {
   }, [publicClient]);
 
   const switchChain = async (chainId: number) => {
+    if (!isConnected) return false;
     setSwitchingToChainId(chainId);
     try {
       await walletClient?.switchChain({

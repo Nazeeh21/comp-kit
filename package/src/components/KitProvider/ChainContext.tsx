@@ -8,6 +8,7 @@ import React, {
 import { Chain } from 'viem';
 import { usePublicClient, useWalletClient } from './KitProvider';
 import { getChain } from '../../utils/utils';
+import { useSwitchChain } from '../../hooks/useSwitchChain';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
@@ -34,25 +35,58 @@ export const ChainContextProvider = ({
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
   const publicClient = usePublicClient();
 
-  useEffect(() => {
-    const fetchChain = async () => {
-      const block = await publicClient?.[supportedChains[0].name]?.getChainId();
-      setCurrentChain(getChain(block || 1));
-      return;
-    };
-    void fetchChain();
-  }, [publicClient]);
+  const { switchChain } = useSwitchChain();
 
   useEffect(() => {
-    const switchChain = async () => {
-      await walletClient?.switchChain({
-        id:
-          (typeof initialChain === 'number'
-            ? initialChain
-            : initialChain?.id) ?? supportedChains[0].id,
+    void (async () => {
+      if (typeof window !== 'undefined' && window.ethereum) {
+        // eslint-disable-next-line @typescript-eslint/await-thenable
+        const chainId = await window.ethereum.request({
+          method: 'eth_chainId',
+        });
+        console.log('chainId from users metamask: ', chainId);
+        chainId && setCurrentChain(getChain(+chainId));
+      }
+    })();
+  }, [window?.ethereum]);
+
+  useEffect(() => {
+    console.log('currentChain from chainContext: ', currentChain);
+  }, [currentChain]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window?.ethereum) {
+      // detect Metamask account change
+      window.ethereum.on('chainChanged', (chainId: string) => {
+        console.log('detected chainChanged', chainId);
+        setCurrentChain(getChain(+chainId));
+      });
+    } else {
+      const fetchChain = async () => {
+        const block = await publicClient?.[
+          supportedChains[0].name
+        ]?.getChainId();
+        setCurrentChain(getChain(block || 1));
+        return;
+      };
+      void fetchChain();
+    }
+    return () => {
+      // @ts-expect-error trying to remove eventLister on window.ethereum object
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      window.ethereum.removeListener('chainChanged', chainId => {
+        console.log('detected chainChanged', chainId);
+        setCurrentChain(getChain(+chainId));
       });
     };
-    initialChain && void switchChain();
+  }, [window?.ethereum]);
+
+  useEffect(() => {
+    initialChain &&
+      void switchChain(
+        (typeof initialChain === 'number' ? initialChain : initialChain?.id) ??
+          supportedChains[0].id
+      );
   }, [initialChain, walletClient]);
 
   return (
@@ -64,7 +98,7 @@ export const ChainContextProvider = ({
             typeof initialChain === 'number' ? initialChain : initialChain?.id,
           currentChain,
         }),
-        [supportedChains, initialChain]
+        [supportedChains, initialChain, currentChain]
       )}
     >
       {children}

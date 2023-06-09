@@ -92,7 +92,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
       });
       setWalletClient(walletClient);
     }
-  }, []);
+  }, [window?.ethereum]);
 
   useEffect(() => {
     if (connecting) {
@@ -165,7 +165,7 @@ export const useWalletProvider = () =>
 export const useSetWalletProvider = () =>
   useContext(AddressContext).setWalletProvider;
 
-export const isConnected = () => useContext(AddressContext).isConnected;
+export const useIsConnected = () => useContext(AddressContext).isConnected;
 
 export const useSetConnected = () => useContext(AddressContext).setConnected;
 
