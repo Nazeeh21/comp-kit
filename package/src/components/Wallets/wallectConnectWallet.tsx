@@ -8,8 +8,10 @@ import {
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
 import { useSetWalletClient } from '../KitProvider/KitProvider';
-import { useCurrentChain } from '../../utils/utils';
-import { useSupportedChains } from '../KitProvider/ChainContext';
+import {
+  useCurrentChain,
+  useSupportedChains,
+} from '../KitProvider/ChainContext';
 
 const projectId = '5a13f1a5297da2cd768519079890e4fe';
 

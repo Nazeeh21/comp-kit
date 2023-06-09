@@ -1,8 +1,10 @@
 import React from 'react';
 import { Chain } from 'viem/chains';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
-import { useCurrentChain } from '../../utils/utils';
-import { useSupportedChains } from '../KitProvider/ChainContext';
+import {
+  useCurrentChain,
+  useSupportedChains,
+} from '../KitProvider/ChainContext';
 import { Select } from '../ui/Select/Select';
 
 export const SwitchNetworks = () => {

@@ -9,7 +9,7 @@ import {
   useSetWalletConnecting,
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
-import { useCurrentChain } from '../../utils/utils';
+import { useCurrentChain } from '../KitProvider/ChainContext';
 
 type EthereumProvider = { request: BaseRpcRequests['request'] };
 
