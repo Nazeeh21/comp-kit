@@ -2,6 +2,7 @@ import React, {
   FC,
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -65,12 +66,17 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   const walletClient = useWalletClient();
   const setWalletClient = useSetWalletClient();
 
-  const disconnectWallet = () => {
+  const disconnectWallet = useCallback(async () => {
+    await walletClient?.request({
+      method: 'eth_requestAccounts',
+      params: undefined,
+    });
+
     setAddress(undefined);
     setWalletProvider(undefined);
     setWalletClient(undefined);
     setConnected(false);
-  };
+  }, [walletClient]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window?.ethereum) {
