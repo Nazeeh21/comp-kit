@@ -12,6 +12,7 @@ import {
   useCurrentChain,
   useSupportedChains,
 } from '../KitProvider/ChainContext';
+import { storePrevAccount, storePrevWallet } from '../../utils/utils';
 
 const projectId = '5a13f1a5297da2cd768519079890e4fe';
 
@@ -38,10 +39,9 @@ export const useWalletConnectWallet = ({
     name: 'WalletConnect',
     connect: async () => {
       setConnecting(true);
-      setWalletProvider('WalletConnect');
       try {
         const provider = await EthereumProvider.init({
-          chains: supportedChains.map(chain => chain.id),
+          chains: [...supportedChains.map(chain => chain.id)],
           projectId,
           showQrModal: true,
         });
@@ -57,13 +57,18 @@ export const useWalletConnectWallet = ({
           transport: custom(provider),
         });
 
-        setWalletClient(walletClient);
-
         if (!walletClient) {
           return;
         }
+        setWalletProvider('WalletConnect');
+        setWalletClient(walletClient);
+
+        storePrevWallet('WalletConnect');
         const accounts = await walletClient.requestAddresses();
-        console.log(accounts);
+        storePrevAccount({
+          accounts,
+          chain: currentChain ?? supportedChains[0],
+        });
         setAddress(accounts);
         onClose?.();
       } catch (error: unknown) {

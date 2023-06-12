@@ -10,6 +10,7 @@ import {
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
 import { useCurrentChain } from '../KitProvider/ChainContext';
+import { storePrevAccount, storePrevWallet } from '../../utils/utils';
 
 type EthereumProvider = { request: BaseRpcRequests['request'] };
 
@@ -32,8 +33,6 @@ export const useMetaMaskWallet = ({ onClose }: useMetaMaskWalletProps) => {
     connect: async () => {
       setError(undefined);
 
-      setWalletProvider('MetaMask');
-
       if (typeof window === 'undefined' || !window.ethereum) {
         console.log('No window.ethereum');
         setError(new Error('No window.ethereum found'));
@@ -47,9 +46,13 @@ export const useMetaMaskWallet = ({ onClose }: useMetaMaskWalletProps) => {
           transport: custom((window.ethereum as unknown) as EthereumProvider),
         });
 
+        storePrevWallet('MetaMask');
+
         setWalletClient(walletClient);
+        setWalletProvider('MetaMask');
 
         const accounts = await walletClient.requestAddresses();
+        storePrevAccount({ accounts, chain: walletClient.chain });
 
         setAddress(accounts);
         onClose?.();

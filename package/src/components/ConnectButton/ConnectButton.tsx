@@ -3,18 +3,17 @@ import {
   useAddress,
   useDisconnect,
   useWalletConnecting,
-  useWalletProvider,
   useWalletStatus,
 } from '../KitProvider/AddressContext';
 import { useMetaMaskWallet } from '../Wallets/metaMaskWallet';
-import { useWalletConnectWallet } from '../Wallets/wallectConnectWallet';
+import { useWalletConnectWallet } from '../Wallets/walletConnectWallet';
 import { Button } from '../ui/Button/Button';
+import { Modal } from '../ui/Modal/Modal';
 import {
   Image,
   ImageContainer,
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
-import { Modal } from '../ui/Modal/Modal';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +21,6 @@ export const ConnectButton = () => {
   const status = useWalletStatus();
   const address = useAddress();
   const connecting = useWalletConnecting();
-  const walletProvider = useWalletProvider();
   const disconnect = useDisconnect();
 
   const openModal = () => {
