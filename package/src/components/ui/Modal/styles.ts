@@ -1,4 +1,5 @@
 import { styled } from '@stitches/react';
+import { X } from 'lucide-react';
 
 // Modal styles
 export const Overlay = styled('div', {
@@ -14,9 +15,9 @@ export const Overlay = styled('div', {
 });
 
 export const ModalContainer = styled('div', {
-  backgroundColor: '#fff',
-  padding: '0px',
-  borderRadius: '4px',
+  position: 'relative',
+  padding: '3em 2.3em',
+  borderRadius: '20px',
   width: '35%', // Default width for larger screens
   height: 'fit-content', // Default height for larger screens
   maxWidth: '50%', // Max width for larger screens
@@ -32,16 +33,42 @@ export const ModalContainer = styled('div', {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: '0.1rem',
-  paddingBottom: '0.75rem',
+  gap: '1em',
+  variants: {
+    color: {
+      light: {
+        backgroundColor: '#F9FDFE',
+        color: 'black',
+      },
+      dark: {
+        backgroundColor: '#222122',
+        color: 'white',
+      },
+    },
+  },
+  defaultVariants: {
+    color: 'light',
+  },
 });
 
-export const CloseButton = styled('button', {
-  position: 'relative',
-  top: '0px',
-  right: '2px',
-  marginLeft: 'auto',
-  background: 'none',
-  border: 'none',
+export const CloseButton = styled(X, {
+  position: 'absolute',
+  top: '12px',
+  right: '12px',
+  borderRadius: '9999px',
+  padding: '0.2em',
   cursor: 'pointer',
+  variants: {
+    color: {
+      light: {
+        background: '#F0F0F0',
+      },
+      dark: {
+        background: '#484848',
+      },
+    },
+  },
+  defaultVariants: {
+    color: 'light',
+  },
 });

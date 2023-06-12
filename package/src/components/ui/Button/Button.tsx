@@ -11,6 +11,9 @@ export const Button = styled('button', {
   width: 'fit-content',
   cursor: 'pointer',
   border: 'none',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   '&:hover': {
     backgroundColor: '#f5f5f5',
   },

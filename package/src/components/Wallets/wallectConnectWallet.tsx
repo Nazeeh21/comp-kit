@@ -43,11 +43,6 @@ export const useWalletConnectWallet = ({
         const provider = await EthereumProvider.init({
           chains: supportedChains.map(chain => chain.id),
           projectId,
-          events: ['chainChanged', 'accountsChanged'],
-          methods: ['eth_requestAccounts'],
-          rpcMap: {
-            1: 'https://cloudflare-eth.com',
-          },
           showQrModal: true,
         });
 

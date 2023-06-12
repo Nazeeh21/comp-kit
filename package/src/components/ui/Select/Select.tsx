@@ -55,6 +55,12 @@ export function Select({
   }, [isOpen]);
 
   useEffect(() => {
+    if (currentChain && options.includes(currentChain)) {
+      console.log('current chain: ', options.indexOf(currentChain));
+    }
+  }, [currentChain, options]);
+
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.target !== containerRef.current) return;
       switch (e.code) {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   useAddress,
   useDisconnect,
@@ -10,8 +9,12 @@ import {
 import { useMetaMaskWallet } from '../Wallets/metaMaskWallet';
 import { useWalletConnectWallet } from '../Wallets/wallectConnectWallet';
 import { Button } from '../ui/Button/Button';
+import {
+  Image,
+  ImageContainer,
+  WalletButton,
+} from '../ui/WalletButton/WalletButton';
 import { Modal } from '../ui/Modal/Modal';
-import { PendingPulse } from '../ui/Select/styles';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,10 +45,13 @@ export const ConnectButton = () => {
   if (status === 'connected' && address) {
     console.log('address', address);
     return (
-      <div>
-        <div>Connected address: {address}</div>
+      <Button>
+        <div>
+          {address.toString().substring(0, 6)}...
+          {address.toString().substring(address.toString().length - 4)}
+        </div>
         <Button onClick={disconnect}>Disconnect</Button>
-      </div>
+      </Button>
     );
   }
 
@@ -53,22 +59,36 @@ export const ConnectButton = () => {
     <>
       <Button onClick={openModal}>Connect Wallet</Button>
       <Modal isOpen={isOpen} onClose={closeModal}>
-        <Button
-          css={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        <WalletButton
+          wallet="metamask"
           disabled={connecting}
           onClick={connectMetamask}
         >
+          <ImageContainer>
+            <Image
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
+              alt="wallet"
+            />
+          </ImageContainer>
           {metaMaskName}
-          {connecting && walletProvider === 'MetaMask' && <PendingPulse />}
-        </Button>
-        <Button
-          css={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+        </WalletButton>
+        <WalletButton
+          wallet="walletconnect"
           disabled={connecting}
           onClick={connectWalletConnect}
         >
+          <ImageContainer>
+            <Image
+              src="https://api.nuget.org/v3-flatcontainer/walletconnect.core/2.0.4/icon"
+              alt="wakllet"
+            />
+          </ImageContainer>
           {walletConnectName}
-          {connecting && walletProvider === 'WalletConnect' && <PendingPulse />}
-        </Button>
+        </WalletButton>
+        <WalletButton wallet="none" disabled={true}>
+          <ImageContainer>🏗️</ImageContainer>
+          Coming soon
+        </WalletButton>
       </Modal>
     </>
   );
