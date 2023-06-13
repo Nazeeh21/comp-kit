@@ -73,7 +73,8 @@
     "package/**/*.ts",
     ".eslintrc.js",
     "jest.config.js",
-    "stories/**.tsx"
+    "stories/**.tsx",
+    "package/src/custom.d.ts"
   ],
   "exclude": [
     "package/src/components/test/__snapshots__",

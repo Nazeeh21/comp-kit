@@ -1,14 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { custom } from 'viem';
-import { mainnet } from 'viem/chains';
+import { goerli, mainnet } from 'viem/chains';
 import { ConnectButton, KitProvider } from '../package/src';
 
 const Comp = () => {
-  if (typeof window.ethereum === 'undefined') return <ConnectButton />;
+  if (typeof window?.ethereum === 'undefined') return <ConnectButton />;
   return (
-    // @ts-expect-error This error is expected because we are mocking the window obejct on the server.
-    <KitProvider chains={mainnet} transport={custom(window.ethereum)}>
+    <KitProvider
+      projectId="5a13f1a5297da2cd768519079890e4fe"
+      initialChain={mainnet}
+      supportedChains={[mainnet, goerli]}
+    >
       <ConnectButton />
     </KitProvider>
   );

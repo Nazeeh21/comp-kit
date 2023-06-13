@@ -1,6 +1,5 @@
+import { Address } from 'viem';
 import * as chains from 'viem/chains';
-import { usePublicClient } from '../components/KitProvider/KitProvider';
-import { useEffect, useState } from 'react';
 
 /**
  * Gets the chain object for the given chain id.
@@ -12,22 +11,43 @@ export function getChain(chainId: number): chains.Chain {
     if (chain.id === chainId) {
       return chain;
     }
+    if (chainId === 0) return chains.mainnet;
   }
   throw new Error(`Chain with id ${chainId} not found`);
 }
 
-export function useCurrentChain(): chains.Chain | undefined {
-  const [currentChain, setCurrentChain] = useState<chains.Chain | undefined>();
-  const publicClient = usePublicClient();
+export function storePrevWallet(wallet: 'MetaMask' | 'WalletConnect') {
+  localStorage.setItem('prevWallet', wallet);
+}
 
-  useEffect(() => {
-    const fetchChain = async () => {
-      const block = await publicClient?.getChainId();
-      setCurrentChain(getChain(block || 0));
-      return;
-    };
-    void fetchChain();
-  }, [publicClient]);
+export function getPrevWallet() {
+  return localStorage.getItem('prevWallet');
+}
 
-  return currentChain;
+export function removePrevWallet() {
+  localStorage.removeItem('prevWallet');
+}
+
+interface PrevAccount {
+  accounts: Address[];
+  chain: chains.Chain;
+}
+
+export function storePrevAccount({ accounts, chain }: PrevAccount) {
+  localStorage.setItem(
+    'prevAccount',
+    JSON.stringify({
+      data: { accounts, chain },
+    })
+  );
+}
+
+export function getPrevAccount() {
+  const prevAccount = localStorage.getItem('prevAccount');
+  if (!prevAccount) return undefined;
+  return JSON.parse(prevAccount) as { data: PrevAccount };
+}
+
+export function removePrevAccount() {
+  localStorage.removeItem('prevAccount');
 }

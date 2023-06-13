@@ -1,63 +1,69 @@
 import React, {
   ReactNode,
-  useContext,
-  useMemo,
   createContext,
+  useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
-import {
-  Transport,
-  createPublicClient,
-  createWalletClient,
-  custom,
-} from 'viem';
-import { Chain } from 'viem/chains';
+import { createPublicClient, createWalletClient, http } from 'viem';
+import { Chain, mainnet } from 'viem/chains';
+import { ChainContextProvider } from './ChainContext';
+import { AddressContextProvider } from './AddressContext';
 
 export interface KitProviderProps {
-  chains: Chain;
-  supportedChains?: Chain[];
-  initialChain?: Chain | number | undefined;
+  supportedChains: Chain[];
+  initialChain?: Chain;
+  projectId: string;
   children: ReactNode;
-  transport: Transport;
 }
-import { ChainContextProvider } from './ChainContext';
 
 export const ClientContext = createContext<{
   walletClient: ReturnType<typeof createWalletClient> | undefined;
-  publicClient: ReturnType<typeof createPublicClient> | undefined;
+  publicClient:
+    | Record<string, ReturnType<typeof createPublicClient>>
+    | undefined;
+  setWalletClient: React.Dispatch<
+    React.SetStateAction<ReturnType<typeof createWalletClient> | undefined>
+  >;
+  projectId: string;
 }>({
   walletClient: undefined,
   publicClient: undefined,
+  setWalletClient: () => {
+    return;
+  },
+  projectId: '',
 });
 
 export const KitProvider = ({
-  chains,
-  transport,
-  supportedChains = [chains],
+  supportedChains,
   initialChain,
+  projectId,
   children,
 }: KitProviderProps) => {
   const [walletClient, setWalletClient] = useState<
     ReturnType<typeof createWalletClient> | undefined
   >();
 
-  useEffect(() => {
-    if (typeof transport === typeof custom) {
-      const client = createWalletClient({
-        chain: chains,
-        transport,
-      });
-      setWalletClient(client);
-    } else {
-      setWalletClient(undefined);
-    }
-  }, [transport]);
+  const [publicClient, setPublicClient] = useState<
+    Record<string, ReturnType<typeof createPublicClient>> | undefined
+  >();
 
-  const publicClient = createPublicClient({
-    chain: chains,
-    transport,
-  });
+  useEffect(() => {
+    const tempPublicClient: Record<
+      string,
+      ReturnType<typeof createPublicClient>
+    > = {};
+    [...supportedChains].forEach(chain => {
+      const client = createPublicClient({
+        chain: chain ?? mainnet,
+        transport: http(),
+      });
+      tempPublicClient[chain.name] = client;
+    });
+    setPublicClient(tempPublicClient);
+  }, []);
 
   return (
     <ClientContext.Provider
@@ -65,24 +71,32 @@ export const KitProvider = ({
         () => ({
           walletClient,
           publicClient,
+          setWalletClient,
+          projectId,
         }),
-        [walletClient, publicClient]
+        [walletClient, publicClient, projectId, setWalletClient]
       )}
     >
       <ChainContextProvider
         supportedChains={supportedChains}
-        initialChainId={initialChain}
+        initialChain={initialChain}
       >
-        {children}
+        <AddressContextProvider>{children}</AddressContextProvider>
       </ChainContextProvider>
     </ClientContext.Provider>
   );
 };
 
 export const usePublicClient = ():
-  | ReturnType<typeof createPublicClient>
+  | Record<string, ReturnType<typeof createPublicClient>>
   | undefined => useContext(ClientContext).publicClient;
 
 export const useWalletClient = ():
   | ReturnType<typeof createWalletClient>
   | undefined => useContext(ClientContext).walletClient;
+
+export const useSetWalletClient = (): React.Dispatch<
+  React.SetStateAction<ReturnType<typeof createWalletClient> | undefined>
+> => useContext(ClientContext).setWalletClient;
+
+export const useProjectId = (): string => useContext(ClientContext).projectId;

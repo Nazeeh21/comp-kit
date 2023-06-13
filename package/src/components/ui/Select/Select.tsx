@@ -1,15 +1,14 @@
+import { Check, ChevronDown } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import { Chain } from 'viem/chains';
 import {
+  ConfirmPulse,
   Container,
-  Value,
   Option,
   Options,
-  PulseContainer,
-  StaticPulse,
-  Pulse,
+  PendingPulse,
+  Value,
 } from './styles';
-import { Chain } from 'viem/chains';
 
 export type SelectOption = {
   label: string;
@@ -33,8 +32,8 @@ export function Select({
   onChange,
   options,
 }: SingleSelectProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [highlightedIndex, setHighlightedindex] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [highlightedIndex, setHighlightedindex] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -45,15 +44,17 @@ export function Select({
     [onChange, value]
   );
 
-  function isOptionSelected(option: Chain) {
-    return option === value;
-  }
-
   useEffect(() => {
     if (isOpen) {
       setHighlightedindex(0);
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    if (currentChain && options.includes(currentChain)) {
+      console.log('current chain: ', options.indexOf(currentChain));
+    }
+  }, [currentChain, options]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -100,7 +101,11 @@ export function Select({
       onClick={() => setIsOpen(prev => !prev)}
       tabIndex={0}
     >
-      <Value>{value?.name}</Value>
+      {currentChain && options.includes(currentChain) ? (
+        <Value>{currentChain.name ?? value?.name}</Value>
+      ) : (
+        <Value css={{ color: 'Red', borderColor: 'Red' }}>Wrong Network</Value>
+      )}
       <ChevronDown size={20} style={{ marginBottom: '0.05em' }} />
       <Options color={variant} className={isOpen ? 'show' : ''}>
         {options.map((option, index) => (
@@ -119,21 +124,12 @@ export function Select({
               <Check
                 style={{ paddingTop: '0.25em' }}
                 size={15}
-                opacity={isOptionSelected(option) ? 1 : 0}
+                opacity={currentChain?.id === option.id ? 1 : 0}
               />
             </div>
             {option.name}
-            {switching === option.id && (
-              <PulseContainer>
-                <StaticPulse status="pending" />
-                <Pulse status="pending" />
-              </PulseContainer>
-            )}
-            {currentChain?.id === option.id && (
-              <PulseContainer>
-                <StaticPulse status="confirm" />
-              </PulseContainer>
-            )}
+            {switching === option.id && <PendingPulse />}
+            {currentChain?.id === option.id && <ConfirmPulse />}
           </Option>
         ))}
       </Options>

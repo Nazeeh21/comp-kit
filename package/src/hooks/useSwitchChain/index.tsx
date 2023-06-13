@@ -4,32 +4,34 @@ import {
   useWalletClient,
 } from '../../components/KitProvider/KitProvider';
 import { getChain } from '../../utils/utils';
+import { useIsConnected } from '../../components/KitProvider/AddressContext';
 
 export const useSwitchChain = () => {
   const walletClient = useWalletClient();
   const publicClient = usePublicClient();
   const [switchingToChainId, setSwitchingToChainId] = useState<number | null>();
+  const isConnected = useIsConnected();
 
   useEffect(() => {
-    if (!window.ethereum) return;
+    if (!window?.ethereum) return;
 
-    // @ts-expect-error trying to add eventLister on window.ethereum object
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    window.ethereum.on('chainChanged', () => {
+    window?.ethereum.on('chainChanged', () => {
       // handle chain change
       setSwitchingToChainId(null);
     });
 
     return () => {
-      // @ts-expect-error trying to remove eventLister on window.ethereum object
+      // @ts-expect-error trying to remove eventLister on window?.ethereum object
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      window.ethereum.removeListener('chainChanged', () =>
+      window?.ethereum.removeListener('chainChanged', () =>
         setSwitchingToChainId(null)
       );
     };
   }, [publicClient]);
 
   const switchChain = async (chainId: number) => {
+    if (!isConnected) return false;
     setSwitchingToChainId(chainId);
     try {
       await walletClient?.switchChain({
@@ -49,10 +51,14 @@ export const useSwitchChain = () => {
             chain,
           });
         } catch (error) {
-          return false;
+          console.error('Error while adding chain', error);
+          throw new Error(`Error while adding chain ${chainId}`);
         }
       }
-      return false;
+      console.error('Error while switching chain', error);
+      throw new Error(`Error while switching chain to ${chainId}`);
+    } finally {
+      setSwitchingToChainId(null);
     }
   };
 
