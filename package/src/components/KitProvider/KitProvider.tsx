@@ -13,7 +13,8 @@ import { AddressContextProvider } from './AddressContext';
 
 export interface KitProviderProps {
   supportedChains: Chain[];
-  initialChain: Chain;
+  initialChain?: Chain;
+  projectId: string;
   children: ReactNode;
 }
 
@@ -25,17 +26,20 @@ export const ClientContext = createContext<{
   setWalletClient: React.Dispatch<
     React.SetStateAction<ReturnType<typeof createWalletClient> | undefined>
   >;
+  projectId: string;
 }>({
   walletClient: undefined,
   publicClient: undefined,
   setWalletClient: () => {
     return;
   },
+  projectId: '',
 });
 
 export const KitProvider = ({
   supportedChains,
   initialChain,
+  projectId,
   children,
 }: KitProviderProps) => {
   const [walletClient, setWalletClient] = useState<
@@ -51,7 +55,7 @@ export const KitProvider = ({
       string,
       ReturnType<typeof createPublicClient>
     > = {};
-    [...supportedChains, initialChain && initialChain].forEach(chain => {
+    [...supportedChains].forEach(chain => {
       const client = createPublicClient({
         chain: chain ?? mainnet,
         transport: http(),
@@ -68,8 +72,9 @@ export const KitProvider = ({
           walletClient,
           publicClient,
           setWalletClient,
+          projectId,
         }),
-        [walletClient, publicClient]
+        [walletClient, publicClient, projectId, setWalletClient]
       )}
     >
       <ChainContextProvider
@@ -93,3 +98,5 @@ export const useWalletClient = ():
 export const useSetWalletClient = (): React.Dispatch<
   React.SetStateAction<ReturnType<typeof createWalletClient> | undefined>
 > => useContext(ClientContext).setWalletClient;
+
+export const useProjectId = (): string => useContext(ClientContext).projectId;

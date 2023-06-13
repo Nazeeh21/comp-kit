@@ -12,7 +12,7 @@ import { useSwitchChain } from '../../hooks/useSwitchChain';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
-  initialChain?: Chain | number;
+  initialChain?: Chain;
   currentChain?: Chain;
 }
 
@@ -38,6 +38,7 @@ export const ChainContextProvider = ({
   const { switchChain } = useSwitchChain();
 
   useEffect(() => {
+    // detect on which chain user is whenever user reloads
     void (async () => {
       if (typeof window !== 'undefined' && window.ethereum) {
         // eslint-disable-next-line @typescript-eslint/await-thenable
@@ -51,12 +52,8 @@ export const ChainContextProvider = ({
   }, [window]);
 
   useEffect(() => {
-    console.log('currentChain from chainContext: ', currentChain);
-  }, [currentChain]);
-
-  useEffect(() => {
     if (typeof window !== 'undefined' && window?.ethereum) {
-      // detect Metamask account change
+      // detect Metamask chain change
       window.ethereum.on('chainChanged', (chainId: string) => {
         console.log('detected chainChanged', chainId);
         setCurrentChain(getChain(+chainId));
@@ -82,10 +79,11 @@ export const ChainContextProvider = ({
   }, [window]);
 
   useEffect(() => {
-    initialChain &&
+    console.log('initialChain from chainContext: ', initialChain);
+    console.log('switching chain');
+    initialChain !== undefined &&
       void switchChain(
-        (typeof initialChain === 'number' ? initialChain : initialChain?.id) ??
-          supportedChains[0].id
+        typeof initialChain === 'number' ? initialChain : initialChain?.id
       );
   }, [initialChain, walletClient]);
 
@@ -94,8 +92,7 @@ export const ChainContextProvider = ({
       value={useMemo(
         () => ({
           supportedChains,
-          initialChain:
-            typeof initialChain === 'number' ? initialChain : initialChain?.id,
+          initialChain,
           currentChain,
         }),
         [supportedChains, initialChain, currentChain]
@@ -109,6 +106,6 @@ export const ChainContextProvider = ({
 export const useSupportedChains = () =>
   useContext(ChainContext).supportedChains;
 
-export const useInitialChainId = () => useContext(ChainContext).initialChain;
+export const useInitialChain = () => useContext(ChainContext).initialChain;
 
 export const useCurrentChain = () => useContext(ChainContext).currentChain;

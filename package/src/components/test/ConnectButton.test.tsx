@@ -16,7 +16,11 @@ declare global {
 
 describe('test ConnectButton', () => {
   const Comp: React.FC = () => (
-    <KitProvider initialChain={mainnet} supportedChains={[mainnet]}>
+    <KitProvider
+      projectId="5a13f1a5297da2cd768519079890e4fe"
+      initialChain={mainnet}
+      supportedChains={[mainnet]}
+    >
       <ConnectButton />
     </KitProvider>
   );

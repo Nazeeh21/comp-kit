@@ -44,10 +44,6 @@ export function Select({
     [onChange, value]
   );
 
-  function isOptionSelected(option: Chain) {
-    return option === value;
-  }
-
   useEffect(() => {
     if (isOpen) {
       setHighlightedindex(0);
@@ -106,7 +102,7 @@ export function Select({
       tabIndex={0}
     >
       {currentChain && options.includes(currentChain) ? (
-        <Value>{value?.name}</Value>
+        <Value>{currentChain.name ?? value?.name}</Value>
       ) : (
         <Value css={{ color: 'Red', borderColor: 'Red' }}>Wrong Network</Value>
       )}
@@ -128,7 +124,7 @@ export function Select({
               <Check
                 style={{ paddingTop: '0.25em' }}
                 size={15}
-                opacity={isOptionSelected(option) ? 1 : 0}
+                opacity={currentChain?.id === option.id ? 1 : 0}
               />
             </div>
             {option.name}

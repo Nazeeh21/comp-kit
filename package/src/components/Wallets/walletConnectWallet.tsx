@@ -7,14 +7,12 @@ import {
   useSetWalletConnecting,
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
-import { useSetWalletClient } from '../KitProvider/KitProvider';
+import { useProjectId, useSetWalletClient } from '../KitProvider/KitProvider';
 import {
   useCurrentChain,
   useSupportedChains,
 } from '../KitProvider/ChainContext';
 import { storePrevAccount, storePrevWallet } from '../../utils/utils';
-
-const projectId = '5a13f1a5297da2cd768519079890e4fe';
 
 interface useWalletConnectWalletProps {
   onClose?: () => void;
@@ -24,6 +22,7 @@ export const useWalletConnectWallet = ({
   onClose,
 }: useWalletConnectWalletProps) => {
   const setWalletClient = useSetWalletClient();
+  const projectId = useProjectId();
 
   const setAddress = useSetAddress(),
     setConnecting = useSetWalletConnecting(),
