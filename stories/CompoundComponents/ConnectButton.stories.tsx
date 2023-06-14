@@ -15,11 +15,17 @@ const Comp = () => {
         <CompoundConnectButton.Button>
           Compound COnnect Button
         </CompoundConnectButton.Button>
-        <CompoundConnectButton.Modal style={{ background: 'cyan' }}>
-          <CompoundConnectButton.MetaMaskButton>
+        <CompoundConnectButton.Modal
+          closeOnOverlayClick={true}
+          style={{ background: 'cyan' }}
+          closeButtonProps={{ style: { background: 'yellow' } }}
+        >
+          <CompoundConnectButton.MetaMaskButton
+            style={{ background: 'yellow' }}
+          >
             Metamask
           </CompoundConnectButton.MetaMaskButton>
-          <CompoundConnectButton.WalletConnect>
+          <CompoundConnectButton.WalletConnect style={{ background: 'yellow' }}>
             WalletConnect
           </CompoundConnectButton.WalletConnect>
         </CompoundConnectButton.Modal>

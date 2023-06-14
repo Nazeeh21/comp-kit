@@ -34,8 +34,18 @@ interface CompoundConnectButtonWithModalProps
   extends React.FC<CompoundConnectButtonProps> {
   Button: React.FC<Omit<React.HTMLAttributes<HTMLButtonElement>, 'onClick'>>;
   Modal: React.FC<Omit<ModalProps, 'isOpen' | 'onClose'>>;
-  MetaMaskButton: React.FC<React.HTMLAttributes<HTMLButtonElement>>;
-  WalletConnect: React.FC<React.HTMLAttributes<HTMLButtonElement>>;
+  MetaMaskButton: React.FC<
+    Omit<
+      React.ComponentProps<typeof WalletButton>,
+      'name' | 'disabled' | 'onClick'
+    >
+  >;
+  WalletConnect: React.FC<
+    Omit<
+      React.ComponentProps<typeof WalletButton>,
+      'name' | 'disabled' | 'onClick'
+    >
+  >;
 }
 
 export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
@@ -97,12 +107,11 @@ CompoundConnectButton.Modal = ({ children, closeButtonProps, ...props }) => {
   );
 };
 
-CompoundConnectButton.MetaMaskButton = ({
-  children,
-}: React.HTMLAttributes<HTMLButtonElement>) => {
+CompoundConnectButton.MetaMaskButton = ({ children, ...props }) => {
   const { connectMetamask, connecting } = contextData();
   return (
     <WalletButton
+      {...props}
       name="metamask"
       disabled={connecting}
       onClick={connectMetamask}
@@ -112,12 +121,11 @@ CompoundConnectButton.MetaMaskButton = ({
   );
 };
 
-CompoundConnectButton.WalletConnect = ({
-  children,
-}: React.HTMLAttributes<HTMLButtonElement>) => {
+CompoundConnectButton.WalletConnect = ({ children, ...props }) => {
   const { connectWalletConnect, connecting } = contextData();
   return (
     <WalletButton
+      {...props}
       name="walletconnect"
       disabled={connecting}
       onClick={connectWalletConnect}
