@@ -44,7 +44,11 @@ const CompoundConnectButtonContext = React.createContext<{
   switching: undefined,
 });
 
-interface CompoundSwitchNetworkProps {
+interface CompoundSwitchNetworkProps
+  extends Omit<
+    React.ComponentProps<typeof Container>,
+    'color' | 'ref' | 'onBlur' | 'onClick' | 'tabIndex'
+  > {
   variant?: 'dark' | 'light';
   children: React.ReactNode;
 }
@@ -66,6 +70,7 @@ export interface CompoundSwitchNetworkWithOptionProps
 export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
   variant = 'light',
   children,
+  ...props
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -130,10 +135,19 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
               option => option.tagName === 'LI'
             );
 
+          console.log({ optionElements });
+
+          const optionValues = optionElements?.map(option => option.id);
+
+          console.log({ optionValues });
+
           const prevIndex = optionElements?.findIndex(
             option => option.id === highlightedIndex.toString()
           );
+
+          console.log({ prevIndex });
           const newValue = optionElements?.[prevIndex ? prevIndex + 1 : 0]?.id;
+          console.log({ newValue });
           newValue && setHighlightedindex(+newValue);
           //   const newValue = highlightedIndex + (e.code === 'ArrowDown' ? 1 : -1);
           //   //   this condition is to be changed because rn its checking index ancd not chain id
@@ -175,6 +189,7 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
         onBlur={() => setIsOpen(false)}
         onClick={() => setIsOpen(prev => !prev)}
         tabIndex={0}
+        {...props}
       >
         {currentChain && supportedChains.includes(currentChain) ? (
           <Value>{currentChain.name ?? value?.name}</Value>
@@ -198,7 +213,7 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
 
 const switchNetworkContext = () => useContext(CompoundConnectButtonContext);
 
-CompoundSwitchNetwork.Option = ({ value, children }) => {
+CompoundSwitchNetwork.Option = ({ value, children, ...props }) => {
   const {
     variant,
     selectOption,
@@ -210,6 +225,7 @@ CompoundSwitchNetwork.Option = ({ value, children }) => {
   } = switchNetworkContext();
   return (
     <Option
+      {...props}
       color={variant}
       onClick={async e => {
         e.stopPropagation();

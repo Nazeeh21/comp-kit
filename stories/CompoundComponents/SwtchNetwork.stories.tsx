@@ -16,9 +16,18 @@ const Comp = () => {
       initialChain={mainnet as Chain}
       supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
     >
-      <CompoundSwitchNetwork>
-        <CompoundSwitchNetwork.Option value={mainnet}>
-          mainnet
+      <CompoundSwitchNetwork style={{ background: 'cyan' }}>
+        <CompoundSwitchNetwork.Option
+          style={{ border: '2px solid cyan', background: 'red' }}
+          value={mainnet}
+        >
+          mainnet 1
+        </CompoundSwitchNetwork.Option>
+        <CompoundSwitchNetwork.Option value={goerli}>
+          goerli 2
+        </CompoundSwitchNetwork.Option>
+        <CompoundSwitchNetwork.Option css={{ color: 'blue' }} value={arbitrum}>
+          arbitrum 3
         </CompoundSwitchNetwork.Option>
       </CompoundSwitchNetwork>
     </KitProvider>
