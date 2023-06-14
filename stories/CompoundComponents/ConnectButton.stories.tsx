@@ -29,6 +29,9 @@ const Comp = () => {
             WalletConnect
           </CompoundConnectButton.WalletConnect>
         </CompoundConnectButton.Modal>
+        <CompoundConnectButton.DisconnectButton>
+          Disconnect Wallet
+        </CompoundConnectButton.DisconnectButton>
       </CompoundConnectButton>
     </KitProvider>
   );

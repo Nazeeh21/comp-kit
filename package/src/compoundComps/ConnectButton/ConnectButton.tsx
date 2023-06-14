@@ -4,7 +4,10 @@ import { Modal, ModalProps } from '../../components/ui/Modal/Modal';
 import { WalletButton } from '../../components/ui/WalletButton/WalletButton';
 import { useMetaMaskWallet } from '../../components/Wallets/metaMaskWallet';
 import { useWalletConnectWallet } from '../../components/Wallets/walletConnectWallet';
-import { useWalletConnecting } from '../../components/KitProvider/AddressContext';
+import {
+  useDisconnect,
+  useWalletConnecting,
+} from '../../components/KitProvider/AddressContext';
 
 const CompoundConnectButtonContext = React.createContext<{
   isOpen: boolean;
@@ -13,6 +16,7 @@ const CompoundConnectButtonContext = React.createContext<{
   connectMetamask: () => Promise<void>;
   connectWalletConnect: () => Promise<void>;
   connecting: boolean;
+  disconnect: () => void;
 }>({
   isOpen: false,
   closeModal: undefined,
@@ -24,6 +28,9 @@ const CompoundConnectButtonContext = React.createContext<{
     // your function here
   },
   connecting: false,
+  disconnect: () => {
+    // your function here
+  },
 });
 
 export interface CompoundConnectButtonProps {
@@ -45,6 +52,9 @@ interface CompoundConnectButtonWithModalProps
       React.ComponentProps<typeof WalletButton>,
       'name' | 'disabled' | 'onClick'
     >
+  >;
+  DisconnectButton: React.FC<
+    Omit<React.ComponentProps<typeof Button>, 'onClick'>
   >;
 }
 
@@ -69,6 +79,7 @@ export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
   });
 
   const connecting = useWalletConnecting();
+  const disconnect = useDisconnect();
 
   return (
     <CompoundConnectButtonContext.Provider
@@ -79,6 +90,7 @@ export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
         connectMetamask,
         connectWalletConnect,
         connecting,
+        disconnect,
       }}
     >
       {children}
@@ -132,5 +144,14 @@ CompoundConnectButton.WalletConnect = ({ children, ...props }) => {
     >
       {children}
     </WalletButton>
+  );
+};
+
+CompoundConnectButton.DisconnectButton = ({ children, ...props }) => {
+  const { disconnect } = contextData();
+  return (
+    <Button {...props} onClick={disconnect}>
+      {children}
+    </Button>
   );
 };
