@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button } from '../../components/ui/Button/Button';
-import { Modal } from '../../components/ui/Modal/Modal';
+import { Modal, ModalProps } from '../../components/ui/Modal/Modal';
 import { WalletButton } from '../../components/ui/WalletButton/WalletButton';
 import { useMetaMaskWallet } from '../../components/Wallets/metaMaskWallet';
 import { useWalletConnectWallet } from '../../components/Wallets/walletConnectWallet';
@@ -33,7 +33,7 @@ export interface CompoundConnectButtonProps {
 interface CompoundConnectButtonWithModalProps
   extends React.FC<CompoundConnectButtonProps> {
   Button: React.FC<Omit<React.HTMLAttributes<HTMLButtonElement>, 'onClick'>>;
-  Modal: React.FC<React.HTMLAttributes<HTMLDivElement>>;
+  Modal: React.FC<Omit<ModalProps, 'isOpen' | 'onClose'>>;
   MetaMaskButton: React.FC<React.HTMLAttributes<HTMLButtonElement>>;
   WalletConnect: React.FC<React.HTMLAttributes<HTMLButtonElement>>;
 }
@@ -83,13 +83,15 @@ CompoundConnectButton.Button = ({ children }) => {
   return <Button onClick={openModal}>{children}</Button>;
 };
 
-CompoundConnectButton.Modal = ({
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) => {
+CompoundConnectButton.Modal = ({ children, closeButtonProps, ...props }) => {
   const { isOpen, closeModal } = contextData();
   return (
-    <Modal {...props} isOpen={isOpen} onClose={closeModal}>
+    <Modal
+      {...props}
+      isOpen={isOpen}
+      closeButtonProps={closeButtonProps}
+      onClose={closeModal}
+    >
       {children}
     </Modal>
   );

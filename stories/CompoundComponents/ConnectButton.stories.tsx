@@ -15,7 +15,7 @@ const Comp = () => {
         <CompoundConnectButton.Button>
           Compound COnnect Button
         </CompoundConnectButton.Button>
-        <CompoundConnectButton.Modal>
+        <CompoundConnectButton.Modal style={{ background: 'cyan' }}>
           <CompoundConnectButton.MetaMaskButton>
             Metamask
           </CompoundConnectButton.MetaMaskButton>
