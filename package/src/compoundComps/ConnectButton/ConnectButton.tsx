@@ -33,11 +33,11 @@ const CompoundConnectButtonContext = React.createContext<{
   },
 });
 
-export interface CompoundConnectButtonProps {
+interface CompoundConnectButtonProps {
   children: React.ReactNode;
 }
 
-interface CompoundConnectButtonWithModalProps
+export interface CompoundConnectButtonWithModalProps
   extends React.FC<CompoundConnectButtonProps> {
   Button: React.FC<Omit<React.HTMLAttributes<HTMLButtonElement>, 'onClick'>>;
   Modal: React.FC<Omit<ModalProps, 'isOpen' | 'onClose'>>;
