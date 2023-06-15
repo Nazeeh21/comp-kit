@@ -29,6 +29,12 @@ const CustomStyleComp = () => {
         <SwitchNetworkWrapper.Option css={{ color: 'blue' }} value={arbitrum}>
           arbitrum 3
         </SwitchNetworkWrapper.Option>
+        <SwitchNetworkWrapper.Option
+          css={{ color: 'blue' }}
+          value={polygonMumbai}
+        >
+          polygonMumbai
+        </SwitchNetworkWrapper.Option>
       </SwitchNetworkWrapper>
     </KitProvider>
   );
