@@ -1,8 +1,9 @@
 {
   "name": "@nazeeh2000/comp-kit",
-  "version": "0.0.4-development",
+  "version": "0.0.9-development",
   "description": "This is a UI library consisting of components for web3 and web2 users",
-  "main": "./lib/index.js",
+  "main": "./lib/package/src/index.js",
+  "types": "./lib/package/src/index.d.ts",
   "files": [
     "lib/**/*"
   ],
@@ -45,7 +46,6 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
-    "@stitches/react": "^1.2.8",
     "@storybook/addon-essentials": "^7.0.12",
     "@storybook/addon-interactions": "^7.0.12",
     "@storybook/addon-links": "^7.0.12",
@@ -55,13 +55,12 @@
     "@storybook/testing-library": "^0.0.14-next.2",
     "@types/jest": "^27.5.2",
     "@types/node": "^12.20.11",
+    "@stitches/react": "^1.2.8",
     "@types/react": "^18.0.14",
     "@types/react-dom": "^18.0.5",
     "@types/react-test-renderer": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
-    "@walletconnect/ethereum-provider": "^2.7.8",
-    "@walletconnect/modal": "^2.4.5",
     "@web3modal/standalone": "^2.4.3",
     "bufferutil": "^4.0.7",
     "eslint": "^8.41.0",
@@ -84,6 +83,8 @@
     "tslib": "^2.4.0",
     "typescript": "^5.0.4",
     "utf-8-validate": "^6.0.3",
+    "@walletconnect/ethereum-provider": "^2.7.8",
+    "@walletconnect/modal": "^2.4.5",
     "viem": "^0.3.39"
   },
   "lint-staged": {
