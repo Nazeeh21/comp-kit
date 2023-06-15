@@ -6,7 +6,7 @@ import { CompoundSwitchNetwork } from '../../package/src/compoundComps/SwitchNet
 
 import type { Chain } from 'viem';
 
-const Comp = () => {
+const CustomStyleComp = () => {
   if (typeof window?.ethereum === 'undefined')
     return <div>window.ethereum is undefined</div>;
 
@@ -34,6 +34,31 @@ const Comp = () => {
   );
 };
 
+const Comp = () => {
+  if (typeof window?.ethereum === 'undefined')
+    return <div>window.ethereum is undefined</div>;
+
+  return (
+    <KitProvider
+      projectId="5a13f1a5297da2cd768519079890e4fe"
+      initialChain={mainnet as Chain}
+      supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
+    >
+      <CompoundSwitchNetwork>
+        <CompoundSwitchNetwork.Option value={mainnet}>
+          mainnet
+        </CompoundSwitchNetwork.Option>
+        <CompoundSwitchNetwork.Option value={goerli}>
+          goerli
+        </CompoundSwitchNetwork.Option>
+        <CompoundSwitchNetwork.Option value={arbitrum}>
+          arbitrum
+        </CompoundSwitchNetwork.Option>
+      </CompoundSwitchNetwork>
+    </KitProvider>
+  );
+};
+
 const meta: Meta<typeof Comp> = {
   title: 'Compound Comps/SwitchNetworks',
   component: Comp,
@@ -44,4 +69,7 @@ type Story = StoryObj<typeof Comp>;
 
 export const Primary: Story = {
   args: {},
+};
+export const CustomStyling: Story = {
+  render: () => <CustomStyleComp />,
 };

@@ -141,27 +141,33 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
               option => option.tagName === 'LI'
             );
 
-          console.log({ optionElements });
-
           const optionValues = optionElements?.map(option =>
             option.getAttribute('id')
           );
 
-          console.log({ optionValues });
-          console.log({ highlightedIndex });
-
           const prevIndex = optionValues?.indexOf(highlightedIndex.toString());
 
-          console.log({ prevIndex });
-          const newIndex =
-            prevIndex !== undefined && prevIndex !== null
-              ? e.code === 'ArrowUp'
-                ? prevIndex - 1
-                : prevIndex + 1
-              : 0;
+          let newIndex = 0;
+
+          if (prevIndex !== undefined && prevIndex !== null && optionValues) {
+            if (e.code === 'ArrowUp') {
+              if (prevIndex === 0) {
+                newIndex = optionValues?.length - 1;
+              } else {
+                newIndex = prevIndex - 1;
+              }
+            } else if (e.code === 'ArrowDown') {
+              if (prevIndex === optionValues?.length - 1) {
+                newIndex = 0;
+              } else {
+                newIndex = prevIndex + 1;
+              }
+            }
+          }
+
           const newValue =
             optionElements?.[newIndex]?.getAttribute('id') ?? null;
-          console.log({ newValue });
+
           newValue && setHighlightedindex(+newValue);
           break;
         }
