@@ -88,6 +88,12 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const optionsRef = useRef<HTMLUListElement>(null);
 
+  useEffect(() => {
+    if (isOpen) {
+      setHighlightedindex(currentChain?.id ?? 1);
+    }
+  }, [isOpen]);
+
   const selectChangeHandler = async (value: Chain) => {
     console.log('isConnected from switchNetwork: ', isConnected);
     if (!isConnected) {
@@ -137,23 +143,26 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
 
           console.log({ optionElements });
 
-          const optionValues = optionElements?.map(option => option.id);
-
-          console.log({ optionValues });
-
-          const prevIndex = optionElements?.findIndex(
-            option => option.id === highlightedIndex.toString()
+          const optionValues = optionElements?.map(option =>
+            option.getAttribute('id')
           );
 
+          console.log({ optionValues });
+          console.log({ highlightedIndex });
+
+          const prevIndex = optionValues?.indexOf(highlightedIndex.toString());
+
           console.log({ prevIndex });
-          const newValue = optionElements?.[prevIndex ? prevIndex + 1 : 0]?.id;
+          const newIndex =
+            prevIndex !== undefined && prevIndex !== null
+              ? e.code === 'ArrowUp'
+                ? prevIndex - 1
+                : prevIndex + 1
+              : 0;
+          const newValue =
+            optionElements?.[newIndex]?.getAttribute('id') ?? null;
           console.log({ newValue });
           newValue && setHighlightedindex(+newValue);
-          //   const newValue = highlightedIndex + (e.code === 'ArrowDown' ? 1 : -1);
-          //   //   this condition is to be changed because rn its checking index ancd not chain id
-          //   if (newValue >= 0 && newValue < supportedChains.length) {
-          //     setHighlightedindex(newValue);
-          //   }
           break;
         }
 
@@ -232,6 +241,7 @@ CompoundSwitchNetwork.Option = ({ value, children, ...props }) => {
         await selectOption(value);
         setIsOpen(false);
       }}
+      id={value.id.toString()}
       onMouseEnter={() => setHighlightedindex(value.id)}
       className={value.id === highlightedIndex ? 'highlighted' : ''}
     >
