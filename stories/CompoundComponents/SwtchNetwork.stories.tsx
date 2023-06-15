@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
 import { KitProvider } from '../../package/src';
-import { CompoundSwitchNetwork } from '../../package/src/compoundComps/SwitchNetwork/SwitchNetwork';
+import { SwitchNetworkWrapper } from '../../package/src/compoundComps/SwitchNetwork/SwitchNetwork';
 
 import type { Chain } from 'viem';
 
@@ -16,20 +16,20 @@ const CustomStyleComp = () => {
       initialChain={mainnet as Chain}
       supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
     >
-      <CompoundSwitchNetwork style={{ background: 'cyan' }}>
-        <CompoundSwitchNetwork.Option
+      <SwitchNetworkWrapper style={{ background: 'cyan' }}>
+        <SwitchNetworkWrapper.Option
           style={{ border: '2px solid cyan', background: 'red' }}
           value={mainnet}
         >
           mainnet 1
-        </CompoundSwitchNetwork.Option>
-        <CompoundSwitchNetwork.Option value={goerli}>
+        </SwitchNetworkWrapper.Option>
+        <SwitchNetworkWrapper.Option value={goerli}>
           goerli 2
-        </CompoundSwitchNetwork.Option>
-        <CompoundSwitchNetwork.Option css={{ color: 'blue' }} value={arbitrum}>
+        </SwitchNetworkWrapper.Option>
+        <SwitchNetworkWrapper.Option css={{ color: 'blue' }} value={arbitrum}>
           arbitrum 3
-        </CompoundSwitchNetwork.Option>
-      </CompoundSwitchNetwork>
+        </SwitchNetworkWrapper.Option>
+      </SwitchNetworkWrapper>
     </KitProvider>
   );
 };
@@ -44,17 +44,17 @@ const Comp = () => {
       initialChain={mainnet as Chain}
       supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
     >
-      <CompoundSwitchNetwork>
-        <CompoundSwitchNetwork.Option value={mainnet}>
+      <SwitchNetworkWrapper>
+        <SwitchNetworkWrapper.Option value={mainnet}>
           mainnet
-        </CompoundSwitchNetwork.Option>
-        <CompoundSwitchNetwork.Option value={goerli}>
+        </SwitchNetworkWrapper.Option>
+        <SwitchNetworkWrapper.Option value={goerli}>
           goerli
-        </CompoundSwitchNetwork.Option>
-        <CompoundSwitchNetwork.Option value={arbitrum}>
+        </SwitchNetworkWrapper.Option>
+        <SwitchNetworkWrapper.Option value={arbitrum}>
           arbitrum
-        </CompoundSwitchNetwork.Option>
-      </CompoundSwitchNetwork>
+        </SwitchNetworkWrapper.Option>
+      </SwitchNetworkWrapper>
     </KitProvider>
   );
 };

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { goerli, mainnet } from 'viem/chains';
-import { CompoundConnectButton, KitProvider } from '../../package/src';
+import { ConnectButtonPrimitive, KitProvider } from '../../package/src';
 
 const Comp = () => {
   if (typeof window?.ethereum === 'undefined') return <>Window is undefined</>;
@@ -11,28 +11,30 @@ const Comp = () => {
       initialChain={mainnet}
       supportedChains={[mainnet, goerli]}
     >
-      <CompoundConnectButton>
-        <CompoundConnectButton.Button>
+      <ConnectButtonPrimitive>
+        <ConnectButtonPrimitive.Button>
           Compound COnnect Button
-        </CompoundConnectButton.Button>
-        <CompoundConnectButton.Modal
+        </ConnectButtonPrimitive.Button>
+        <ConnectButtonPrimitive.Modal
           closeOnOverlayClick={true}
           style={{ background: 'cyan' }}
           closeButtonProps={{ style: { background: 'yellow' } }}
         >
-          <CompoundConnectButton.MetaMaskButton
+          <ConnectButtonPrimitive.MetaMaskButton
             style={{ background: 'yellow' }}
           >
             Metamask
-          </CompoundConnectButton.MetaMaskButton>
-          <CompoundConnectButton.WalletConnect style={{ background: 'yellow' }}>
+          </ConnectButtonPrimitive.MetaMaskButton>
+          <ConnectButtonPrimitive.WalletConnect
+            style={{ background: 'yellow' }}
+          >
             WalletConnect
-          </CompoundConnectButton.WalletConnect>
-        </CompoundConnectButton.Modal>
-        <CompoundConnectButton.DisconnectButton>
+          </ConnectButtonPrimitive.WalletConnect>
+        </ConnectButtonPrimitive.Modal>
+        <ConnectButtonPrimitive.DisconnectButton>
           Disconnect Wallet
-        </CompoundConnectButton.DisconnectButton>
-      </CompoundConnectButton>
+        </ConnectButtonPrimitive.DisconnectButton>
+      </ConnectButtonPrimitive>
     </KitProvider>
   );
 };

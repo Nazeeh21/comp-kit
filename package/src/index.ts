@@ -9,5 +9,5 @@ export {
 export { SwitchNetworks } from './components/SwitchNetwork/SwitchNetwork';
 
 // Compound components
-export { CompoundConnectButton } from './compoundComps/ConnectButton/ConnectButton';
-export { CompoundSwitchNetwork } from './compoundComps/SwitchNetwork/SwitchNetwork';
+export { ConnectButtonPrimitive } from './compoundComps/ConnectButton/ConnectButton';
+export { SwitchNetworkWrapper } from './compoundComps/SwitchNetwork/SwitchNetwork';

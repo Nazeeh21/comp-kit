@@ -9,7 +9,7 @@ import {
   useWalletConnecting,
 } from '../../components/KitProvider/AddressContext';
 
-const CompoundConnectButtonContext = React.createContext<{
+const ConnectButtonContext = React.createContext<{
   isOpen: boolean;
   openModal: React.MouseEventHandler<HTMLButtonElement> | undefined;
   closeModal: React.MouseEventHandler<SVGSVGElement> | undefined;
@@ -58,7 +58,7 @@ export interface CompoundConnectButtonWithModalProps
   >;
 }
 
-export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
+export const ConnectButtonPrimitive: CompoundConnectButtonWithModalProps = ({
   children,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +82,7 @@ export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
   const disconnect = useDisconnect();
 
   return (
-    <CompoundConnectButtonContext.Provider
+    <ConnectButtonContext.Provider
       value={{
         isOpen,
         closeModal,
@@ -94,18 +94,18 @@ export const CompoundConnectButton: CompoundConnectButtonWithModalProps = ({
       }}
     >
       {children}
-    </CompoundConnectButtonContext.Provider>
+    </ConnectButtonContext.Provider>
   );
 };
 
-const contextData = () => useContext(CompoundConnectButtonContext);
+const contextData = () => useContext(ConnectButtonContext);
 
-CompoundConnectButton.Button = ({ children }) => {
+ConnectButtonPrimitive.Button = ({ children }) => {
   const { openModal } = contextData();
   return <Button onClick={openModal}>{children}</Button>;
 };
 
-CompoundConnectButton.Modal = ({ children, closeButtonProps, ...props }) => {
+ConnectButtonPrimitive.Modal = ({ children, closeButtonProps, ...props }) => {
   const { isOpen, closeModal } = contextData();
   return (
     <Modal
@@ -119,7 +119,7 @@ CompoundConnectButton.Modal = ({ children, closeButtonProps, ...props }) => {
   );
 };
 
-CompoundConnectButton.MetaMaskButton = ({ children, ...props }) => {
+ConnectButtonPrimitive.MetaMaskButton = ({ children, ...props }) => {
   const { connectMetamask, connecting } = contextData();
   return (
     <WalletButton
@@ -133,7 +133,7 @@ CompoundConnectButton.MetaMaskButton = ({ children, ...props }) => {
   );
 };
 
-CompoundConnectButton.WalletConnect = ({ children, ...props }) => {
+ConnectButtonPrimitive.WalletConnect = ({ children, ...props }) => {
   const { connectWalletConnect, connecting } = contextData();
   return (
     <WalletButton
@@ -147,7 +147,7 @@ CompoundConnectButton.WalletConnect = ({ children, ...props }) => {
   );
 };
 
-CompoundConnectButton.DisconnectButton = ({ children, ...props }) => {
+ConnectButtonPrimitive.DisconnectButton = ({ children, ...props }) => {
   const { disconnect } = contextData();
   return (
     <Button {...props} onClick={disconnect}>

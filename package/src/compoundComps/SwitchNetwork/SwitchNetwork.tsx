@@ -44,7 +44,7 @@ const CompoundConnectButtonContext = React.createContext<{
   switching: undefined,
 });
 
-interface CompoundSwitchNetworkProps
+interface SwitchNetworkWrapperProps
   extends Omit<
     React.ComponentProps<typeof Container>,
     'color' | 'ref' | 'onBlur' | 'onClick' | 'tabIndex'
@@ -63,11 +63,11 @@ interface CompoundSwitchNetworkOptionProps
 }
 
 export interface CompoundSwitchNetworkWithOptionProps
-  extends React.FC<CompoundSwitchNetworkProps> {
+  extends React.FC<SwitchNetworkWrapperProps> {
   Option: React.FC<CompoundSwitchNetworkOptionProps>;
 }
 
-export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
+export const SwitchNetworkWrapper: CompoundSwitchNetworkWithOptionProps = ({
   variant = 'light',
   children,
   ...props
@@ -228,7 +228,7 @@ export const CompoundSwitchNetwork: CompoundSwitchNetworkWithOptionProps = ({
 
 const switchNetworkContext = () => useContext(CompoundConnectButtonContext);
 
-CompoundSwitchNetwork.Option = ({ value, children, ...props }) => {
+SwitchNetworkWrapper.Option = ({ value, children, ...props }) => {
   const {
     variant,
     selectOption,
