@@ -7,3 +7,7 @@ export {
   useWalletClient,
 } from './components/KitProvider/KitProvider';
 export { SwitchNetworks } from './components/SwitchNetwork/SwitchNetwork';
+
+// Compound components
+export { ConnectButtonPrimitive } from './compoundComps/ConnectButton/ConnectButton';
+export { SwitchNetworkWrapper } from './compoundComps/SwitchNetwork/SwitchNetwork';

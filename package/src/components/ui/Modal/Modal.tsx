@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { CloseButton, ModalContainer, Overlay } from './styles';
-import { X } from 'lucide-react';
 
-interface ModalProps {
+export interface ModalProps
+  extends React.ComponentProps<typeof ModalContainer> {
   isOpen: boolean;
   onClose: React.MouseEventHandler<SVGSVGElement> | undefined;
   closeOnOverlayClick?: boolean;
+  closeButtonProps?: Omit<React.ComponentProps<typeof CloseButton>, 'onClick'>;
   children?: React.ReactNode;
 }
 
@@ -14,7 +15,9 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   closeOnOverlayClick = false,
+  closeButtonProps,
   children,
+  ...props
 }) => {
   const handleClickOutside: React.MouseEventHandler<HTMLDivElement> = event => {
     if (!closeOnOverlayClick) return;
@@ -47,8 +50,8 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <Overlay onClick={handleClickOutside}>
-      <ModalContainer>
-        <CloseButton onClick={onClose} />
+      <ModalContainer {...props}>
+        <CloseButton {...closeButtonProps} onClick={onClose} />
         {children}
       </ModalContainer>
     </Overlay>

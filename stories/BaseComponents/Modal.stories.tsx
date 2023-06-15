@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { FC, useState } from 'react';
-import { Modal } from '../package/src/components/ui/Modal/Modal';
-import { Button } from '../package/src/components/ui/Button/Button';
+import { Modal } from '../../package/src/components/ui/Modal/Modal';
+import { Button } from '../../package/src/components/ui/Button/Button';
 
 interface Props {
   closeOnOverlayClick?: boolean;
@@ -32,7 +32,7 @@ const Comp: FC<Props> = ({ closeOnOverlayClick = false }) => {
 };
 
 const meta: Meta<typeof Comp> = {
-  title: 'Modal',
+  title: 'Pure Comps/Modal',
   component: Comp,
 };
 
