@@ -143,7 +143,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
       });
       setWalletClient(walletClient);
     }
-  }, [window]);
+  }, []);
 
   useEffect(() => {
     if (connecting) {

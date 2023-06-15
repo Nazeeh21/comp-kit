@@ -49,7 +49,7 @@ export const ChainContextProvider = ({
         chainId && setCurrentChain(getChain(+chainId));
       }
     })();
-  }, [window]);
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window?.ethereum) {
@@ -76,7 +76,7 @@ export const ChainContextProvider = ({
         setCurrentChain(getChain(+chainId));
       });
     };
-  }, [window]);
+  }, [publicClient, supportedChains]);
 
   useEffect(() => {
     console.log('initialChain from chainContext: ', initialChain);
