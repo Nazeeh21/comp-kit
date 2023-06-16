@@ -14,12 +14,14 @@ export interface ChainContextProps {
   supportedChains: Chain[];
   initialChain?: Chain;
   currentChain?: Chain;
+  switchingToChainId?: number | null;
 }
 
 const ChainContext = createContext<ChainContextProps>({
   supportedChains: [],
   initialChain: undefined,
   currentChain: undefined,
+  switchingToChainId: undefined,
 });
 
 interface ChainContextProviderProps extends ChainContextProps {
@@ -35,7 +37,7 @@ export const ChainContextProvider = ({
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
   const publicClient = usePublicClient();
 
-  const { switchChain } = useSwitchChain();
+  const { switchChain, switchingToChainId } = useSwitchChain();
 
   useEffect(() => {
     // detect on which chain user is whenever user reloads
@@ -94,8 +96,9 @@ export const ChainContextProvider = ({
           supportedChains,
           initialChain,
           currentChain,
+          switchingToChainId,
         }),
-        [supportedChains, initialChain, currentChain]
+        [supportedChains, initialChain, currentChain, switchingToChainId]
       )}
     >
       {children}
@@ -109,3 +112,14 @@ export const useSupportedChains = () =>
 export const useInitialChain = () => useContext(ChainContext).initialChain;
 
 export const useCurrentChain = () => useContext(ChainContext).currentChain;
+
+export const useChain = () => {
+  const { currentChain, supportedChains } = useContext(ChainContext);
+  return useMemo(
+    () => ({
+      currentChain,
+      supportedChains,
+    }),
+    [currentChain, supportedChains]
+  );
+};

@@ -9,7 +9,9 @@ import { useIsConnected } from '../../components/KitProvider/AddressContext';
 export const useSwitchChain = () => {
   const walletClient = useWalletClient();
   const publicClient = usePublicClient();
-  const [switchingToChainId, setSwitchingToChainId] = useState<number | null>();
+  const [switchingToChainId, setSwitchingToChainId] = useState<number | null>(
+    null
+  );
   const isConnected = useIsConnected();
 
   useEffect(() => {

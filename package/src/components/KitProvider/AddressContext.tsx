@@ -146,6 +146,9 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   }, []);
 
   useEffect(() => {
+    console.log('address from AddressContext: ', address);
+  }, [address]);
+  useEffect(() => {
     if (connecting) {
       setStatus('connecting');
     } else if (address && !error) {
@@ -221,3 +224,36 @@ export const useIsConnected = () => useContext(AddressContext).isConnected;
 export const useSetConnected = () => useContext(AddressContext).setConnected;
 
 export const useDisconnect = () => useContext(AddressContext).disconnectWallet;
+
+export const useAccount = () => {
+  const {
+    address,
+    connecting,
+    error,
+    status,
+    isConnected,
+    disconnectWallet,
+    walletProvider,
+  } = useContext(AddressContext);
+
+  return useMemo(
+    () => ({
+      address,
+      connecting,
+      error,
+      status,
+      isConnected,
+      disconnectWallet,
+      walletProvider,
+    }),
+    [
+      address,
+      connecting,
+      error,
+      status,
+      isConnected,
+      disconnectWallet,
+      walletProvider,
+    ]
+  );
+};

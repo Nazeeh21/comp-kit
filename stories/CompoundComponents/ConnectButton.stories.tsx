@@ -1,47 +1,74 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { goerli, mainnet } from 'viem/chains';
-import { ConnectButtonPrimitive, KitProvider } from '../../package/src';
+import {
+  ConnectButtonPrimitive,
+  KitProvider,
+  useAccount,
+} from '../../package/src';
 
 const Comp = () => {
+  const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    console.log('address', address);
+  }, [address]);
+
+  useEffect(() => {
+    console.log('isConnected', isConnected);
+  }, [isConnected]);
+
   if (typeof window?.ethereum === 'undefined') return <>Window is undefined</>;
   return (
-    <KitProvider
-      projectId="5a13f1a5297da2cd768519079890e4fe"
-      initialChain={mainnet}
-      supportedChains={[mainnet, goerli]}
-    >
-      <ConnectButtonPrimitive>
-        <ConnectButtonPrimitive.Button>
-          Compound COnnect Button
-        </ConnectButtonPrimitive.Button>
-        <ConnectButtonPrimitive.Modal
-          closeOnOverlayClick={true}
-          style={{ background: 'cyan' }}
-          closeButtonProps={{ style: { background: 'yellow' } }}
-        >
-          <ConnectButtonPrimitive.MetaMaskButton
-            style={{ background: 'yellow' }}
+    <ConnectButtonPrimitive>
+      {isConnected && address ? (
+        <>
+          <div>Connected address: {address?.[0].toString()}</div>
+          <ConnectButtonPrimitive.DisconnectButton>
+            Disconnect Wallet
+          </ConnectButtonPrimitive.DisconnectButton>
+        </>
+      ) : (
+        <>
+          <ConnectButtonPrimitive.Button>
+            Compound Connect Button
+          </ConnectButtonPrimitive.Button>
+          <ConnectButtonPrimitive.Modal
+            closeOnOverlayClick={true}
+            style={{ background: 'cyan' }}
+            closeButtonProps={{ style: { background: 'yellow' } }}
           >
-            Metamask
-          </ConnectButtonPrimitive.MetaMaskButton>
-          <ConnectButtonPrimitive.WalletConnect
-            style={{ background: 'yellow' }}
-          >
-            WalletConnect
-          </ConnectButtonPrimitive.WalletConnect>
-        </ConnectButtonPrimitive.Modal>
-        <ConnectButtonPrimitive.DisconnectButton>
-          Disconnect Wallet
-        </ConnectButtonPrimitive.DisconnectButton>
-      </ConnectButtonPrimitive>
-    </KitProvider>
+            <ConnectButtonPrimitive.MetaMaskButton
+              style={{ background: 'yellow' }}
+            >
+              Metamask
+            </ConnectButtonPrimitive.MetaMaskButton>
+            <ConnectButtonPrimitive.WalletConnect
+              style={{ background: 'yellow' }}
+            >
+              WalletConnect
+            </ConnectButtonPrimitive.WalletConnect>
+          </ConnectButtonPrimitive.Modal>
+        </>
+      )}
+    </ConnectButtonPrimitive>
   );
 };
 
 const meta: Meta<typeof Comp> = {
   title: 'Compound Comps/ConnectButton',
   component: Comp,
+  decorators: [
+    Story => (
+      <KitProvider
+        projectId="5a13f1a5297da2cd768519079890e4fe"
+        initialChain={mainnet}
+        supportedChains={[mainnet, goerli]}
+      >
+        <Story />
+      </KitProvider>
+    ),
+  ],
 };
 
 export default meta;
