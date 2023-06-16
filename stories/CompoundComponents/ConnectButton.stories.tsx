@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React, { useEffect } from 'react';
-import { goerli, mainnet } from 'viem/chains';
+import { Chain, arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
 import {
   ConnectButtonPrimitive,
   KitProvider,
@@ -59,15 +59,19 @@ const meta: Meta<typeof Comp> = {
   title: 'Compound Comps/ConnectButton',
   component: Comp,
   decorators: [
-    Story => (
-      <KitProvider
-        projectId="5a13f1a5297da2cd768519079890e4fe"
-        initialChain={mainnet}
-        supportedChains={[mainnet, goerli]}
-      >
-        <Story />
-      </KitProvider>
-    ),
+    Story => {
+      if (typeof window?.ethereum === 'undefined')
+        return <div>window.ethereum is undefined</div>;
+      return (
+        <KitProvider
+          projectId="5a13f1a5297da2cd768519079890e4fe"
+          initialChain={mainnet as Chain}
+          supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
+        >
+          <Story />
+        </KitProvider>
+      );
+    },
   ],
 };
 
