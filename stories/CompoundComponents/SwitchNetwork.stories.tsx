@@ -80,15 +80,19 @@ const meta: Meta<typeof Comp> = {
   title: 'Compound Comps/SwitchNetworks',
   component: Comp,
   decorators: [
-    Story => (
-      <KitProvider
-        projectId="5a13f1a5297da2cd768519079890e4fe"
-        initialChain={mainnet as Chain}
-        supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
-      >
-        <Story />
-      </KitProvider>
-    ),
+    Story => {
+      if (typeof window?.ethereum === 'undefined')
+        return <div>window.ethereum is undefined</div>;
+      return (
+        <KitProvider
+          projectId="5a13f1a5297da2cd768519079890e4fe"
+          initialChain={mainnet as Chain}
+          supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
+        >
+          <Story />
+        </KitProvider>
+      );
+    },
   ],
 };
 
