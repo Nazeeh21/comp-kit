@@ -73,7 +73,7 @@ export const ChainContextProvider = ({
     return () => {
       // @ts-expect-error trying to remove eventLister on window.ethereum object
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      window.ethereum.removeListener('chainChanged', chainId => {
+      window?.ethereum?.removeListener('chainChanged', chainId => {
         console.log('detected chainChanged', chainId);
         setCurrentChain(getChain(+chainId));
       });
