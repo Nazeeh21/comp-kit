@@ -104,7 +104,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
     return () => {
       // @ts-expect-error trying to remove eventLister on window.ethereum object
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      window.ethereum.removeListener('accountsChanged', accounts => {
+      window?.ethereum?.removeListener('accountsChanged', accounts => {
         console.log('accountsChanges', accounts);
       });
     };
@@ -145,6 +145,9 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    console.log('address from AddressContext: ', address);
+  }, [address]);
   useEffect(() => {
     if (connecting) {
       setStatus('connecting');
@@ -221,3 +224,36 @@ export const useIsConnected = () => useContext(AddressContext).isConnected;
 export const useSetConnected = () => useContext(AddressContext).setConnected;
 
 export const useDisconnect = () => useContext(AddressContext).disconnectWallet;
+
+export const useAccount = () => {
+  const {
+    address,
+    connecting,
+    error,
+    status,
+    isConnected,
+    disconnectWallet,
+    walletProvider,
+  } = useContext(AddressContext);
+
+  return useMemo(
+    () => ({
+      address,
+      connecting,
+      error,
+      status,
+      isConnected,
+      disconnectWallet,
+      walletProvider,
+    }),
+    [
+      address,
+      connecting,
+      error,
+      status,
+      isConnected,
+      disconnectWallet,
+      walletProvider,
+    ]
+  );
+};
