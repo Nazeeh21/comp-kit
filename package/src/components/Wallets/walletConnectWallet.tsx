@@ -1,18 +1,19 @@
 import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
+import { getChain, storePrevAccount, storePrevWallet } from '../../utils/utils';
 import {
   useSetAddress,
   useSetConnectWalletError,
   useSetWalletConnecting,
   useSetWalletProvider,
 } from '../KitProvider/AddressContext';
-import { useProjectId, useSetWalletClient } from '../KitProvider/KitProvider';
 import {
   useCurrentChain,
+  useSetCurrentChain,
   useSupportedChains,
 } from '../KitProvider/ChainContext';
-import { storePrevAccount, storePrevWallet } from '../../utils/utils';
+import { useProjectId, useSetWalletClient } from '../KitProvider/KitProvider';
 
 interface useWalletConnectWalletProps {
   onClose?: () => void;
@@ -27,7 +28,8 @@ export const useWalletConnectWallet = ({
   const setAddress = useSetAddress(),
     setConnecting = useSetWalletConnecting(),
     setError = useSetConnectWalletError(),
-    setWalletProvider = useSetWalletProvider();
+    setWalletProvider = useSetWalletProvider(),
+    setCurrentChain = useSetCurrentChain();
 
   const supportedChains = useSupportedChains();
 
@@ -47,6 +49,10 @@ export const useWalletConnectWallet = ({
 
         provider.on('display_uri', (uri: string) => {
           console.log('URI: ', uri);
+        });
+
+        provider.on('chainChanged', (chainId: string) => {
+          setCurrentChain?.(getChain(+chainId));
         });
 
         await provider.connect();

@@ -6,14 +6,15 @@ import React, {
   useState,
 } from 'react';
 import { Chain } from 'viem';
-import { usePublicClient, useWalletClient } from './KitProvider';
-import { getChain } from '../../utils/utils';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
+import { getChain, getPrevWallet } from '../../utils/utils';
+import { usePublicClient, useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
   initialChain?: Chain;
   currentChain?: Chain;
+  setCurrentChain?: React.Dispatch<React.SetStateAction<Chain | undefined>>;
   switchingToChainId?: number | null;
 }
 
@@ -21,6 +22,7 @@ const ChainContext = createContext<ChainContextProps>({
   supportedChains: [],
   initialChain: undefined,
   currentChain: undefined,
+  setCurrentChain: () => undefined,
   switchingToChainId: undefined,
 });
 
@@ -36,13 +38,22 @@ export const ChainContextProvider = ({
   const walletClient = useWalletClient();
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
   const publicClient = usePublicClient();
+  const prevWallet = getPrevWallet();
 
   const { switchChain, switchingToChainId } = useSwitchChain();
 
   useEffect(() => {
+    console.log({ currentChain });
+  }, [currentChain]);
+
+  useEffect(() => {
     // detect on which chain user is whenever user reloads
     void (async () => {
-      if (typeof window !== 'undefined' && window.ethereum) {
+      if (
+        typeof window !== 'undefined' &&
+        window.ethereum &&
+        prevWallet === 'MetaMask'
+      ) {
         // eslint-disable-next-line @typescript-eslint/await-thenable
         const chainId = await window.ethereum.request({
           method: 'eth_chainId',
@@ -51,11 +62,11 @@ export const ChainContextProvider = ({
         chainId && setCurrentChain(getChain(+chainId));
       }
     })();
-  }, []);
+  }, [walletClient]);
 
   useEffect(() => {
+    // detect Metamask chain change
     if (typeof window !== 'undefined' && window?.ethereum) {
-      // detect Metamask chain change
       window.ethereum.on('chainChanged', (chainId: string) => {
         console.log('detected chainChanged', chainId);
         setCurrentChain(getChain(+chainId));
@@ -97,8 +108,15 @@ export const ChainContextProvider = ({
           initialChain,
           currentChain,
           switchingToChainId,
+          setCurrentChain,
         }),
-        [supportedChains, initialChain, currentChain, switchingToChainId]
+        [
+          supportedChains,
+          initialChain,
+          currentChain,
+          setCurrentChain,
+          switchingToChainId,
+        ]
       )}
     >
       {children}
@@ -110,6 +128,9 @@ export const useSupportedChains = () =>
   useContext(ChainContext).supportedChains;
 
 export const useInitialChain = () => useContext(ChainContext).initialChain;
+
+export const useSetCurrentChain = () =>
+  useContext(ChainContext).setCurrentChain;
 
 export const useCurrentChain = () => useContext(ChainContext).currentChain;
 

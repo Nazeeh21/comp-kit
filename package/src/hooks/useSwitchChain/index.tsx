@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import {
+  useIsConnected,
+  useWalletProvider,
+} from '../../components/KitProvider/AddressContext';
+import {
   usePublicClient,
   useWalletClient,
 } from '../../components/KitProvider/KitProvider';
 import { getChain } from '../../utils/utils';
-import { useIsConnected } from '../../components/KitProvider/AddressContext';
 
 export const useSwitchChain = () => {
   const walletClient = useWalletClient();
@@ -13,13 +16,14 @@ export const useSwitchChain = () => {
     null
   );
   const isConnected = useIsConnected();
+  const walletProvider = useWalletProvider();
 
   useEffect(() => {
-    if (!window?.ethereum) return;
+    // Detect chain changed for MetaMask
+    if (!window?.ethereum && walletProvider !== 'MetaMask') return;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     window?.ethereum.on('chainChanged', () => {
-      // handle chain change
       setSwitchingToChainId(null);
     });
 
