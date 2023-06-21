@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "exclude": [
     "test/**/*.tsx",
+    "package/src/components/test",
     ".eslintrc.js",
     "jest.config.js",
     "stories/**.tsx",

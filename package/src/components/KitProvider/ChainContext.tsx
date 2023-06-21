@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { Chain } from 'viem';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
-import { getChain, getPrevWallet } from '../../utils/utils';
+import { getChain } from '../../utils/utils';
 import { usePublicClient, useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
@@ -38,7 +38,6 @@ export const ChainContextProvider = ({
   const walletClient = useWalletClient();
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
   const publicClient = usePublicClient();
-  const prevWallet = getPrevWallet();
 
   const { switchChain, switchingToChainId } = useSwitchChain();
 
@@ -49,11 +48,7 @@ export const ChainContextProvider = ({
   useEffect(() => {
     // detect on which chain user is whenever user reloads
     void (async () => {
-      if (
-        typeof window !== 'undefined' &&
-        window.ethereum &&
-        prevWallet === 'MetaMask'
-      ) {
+      if (typeof window !== 'undefined' && window.ethereum) {
         // eslint-disable-next-line @typescript-eslint/await-thenable
         const chainId = await window.ethereum.request({
           method: 'eth_chainId',
@@ -62,7 +57,7 @@ export const ChainContextProvider = ({
         chainId && setCurrentChain(getChain(+chainId));
       }
     })();
-  }, [walletClient]);
+  }, []);
 
   useEffect(() => {
     // detect Metamask chain change

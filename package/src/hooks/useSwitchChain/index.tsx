@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useIsConnected,
-  useWalletProvider,
-} from '../../components/KitProvider/AddressContext';
+import { useIsConnected } from '../../components/KitProvider/AddressContext';
 import {
   usePublicClient,
   useWalletClient,
@@ -16,11 +13,9 @@ export const useSwitchChain = () => {
     null
   );
   const isConnected = useIsConnected();
-  const walletProvider = useWalletProvider();
 
   useEffect(() => {
-    // Detect chain changed for MetaMask
-    if (!window?.ethereum && walletProvider !== 'MetaMask') return;
+    if (!window?.ethereum) return;
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     window?.ethereum.on('chainChanged', () => {

@@ -12,7 +12,6 @@ import React, {
 import { Address, createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
 import {
-  getPrevAccount,
   getPrevWallet,
   removePrevAccount,
   removePrevWallet,
@@ -89,7 +88,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   useEffect(() => {
     // add listeners to listen account changes in metamask
     if (
-      getPrevWallet() === 'MetaMask' &&
+      walletProvider === 'MetaMask' &&
       typeof window !== 'undefined' &&
       window?.ethereum
     ) {
@@ -108,7 +107,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
         console.log('accountsChanges', accounts);
       });
     };
-  }, []);
+  }, [walletProvider]);
 
   useEffect(() => {
     // persists address on reload if wallet is metamask
@@ -125,18 +124,8 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   }, [walletClient]);
 
   useEffect(() => {
-    if (getPrevWallet() === 'WalletConnect') {
-      const data = getPrevAccount();
-      if (data) {
-        console.log('data: ', data);
-        setAddress(data.data.accounts);
-      }
-    } else if (
-      // persists walletClient on reload if wallet is metamask
-      getPrevWallet() === 'MetaMask' &&
-      typeof window !== 'undefined' &&
-      window?.ethereum
-    ) {
+    // persists walletClient on reload if wallet is metamask
+    if (typeof window !== 'undefined' && window?.ethereum) {
       const walletClient = createWalletClient({
         chain: mainnet,
         transport: custom((window.ethereum as unknown) as EthereumProvider),

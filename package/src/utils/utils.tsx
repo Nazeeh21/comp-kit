@@ -1,5 +1,17 @@
 import { Address } from 'viem';
 import * as chains from 'viem/chains';
+import { requestObject } from '../components/test/utils';
+
+declare global {
+  interface Window {
+    ethereum: {
+      off(arg0: string, handleChainChanged: (chainId: string) => void): unknown;
+      on(arg0: string, arg1: (chainId: string) => void): unknown;
+      enable(): unknown;
+      request: typeof requestObject;
+    };
+  }
+}
 
 /**
  * Gets the chain object for the given chain id.
