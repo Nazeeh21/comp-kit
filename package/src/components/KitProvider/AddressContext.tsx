@@ -11,11 +11,7 @@ import React, {
 } from 'react';
 import { Address, createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
-import {
-  getPrevWallet,
-  removePrevAccount,
-  removePrevWallet,
-} from '../../utils/utils';
+import { removePrevAccount, removePrevWallet } from '../../utils/utils';
 import { useSetWalletClient, useWalletClient } from './KitProvider';
 
 interface AddressContextProps {
