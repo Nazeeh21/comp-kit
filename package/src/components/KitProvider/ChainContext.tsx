@@ -6,14 +6,15 @@ import React, {
   useState,
 } from 'react';
 import { Chain } from 'viem';
-import { usePublicClient, useWalletClient } from './KitProvider';
-import { getChain } from '../../utils/utils';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
+import { getChain } from '../../utils/utils';
+import { useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
   supportedChains: Chain[];
   initialChain?: Chain;
   currentChain?: Chain;
+  setCurrentChain?: React.Dispatch<React.SetStateAction<Chain | undefined>>;
   switchingToChainId?: number | null;
 }
 
@@ -21,6 +22,7 @@ const ChainContext = createContext<ChainContextProps>({
   supportedChains: [],
   initialChain: undefined,
   currentChain: undefined,
+  setCurrentChain: undefined,
   switchingToChainId: undefined,
 });
 
@@ -35,7 +37,6 @@ export const ChainContextProvider = ({
 }: ChainContextProviderProps) => {
   const walletClient = useWalletClient();
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
-  const publicClient = usePublicClient();
 
   const { switchChain, switchingToChainId } = useSwitchChain();
 
@@ -62,9 +63,7 @@ export const ChainContextProvider = ({
       });
     } else {
       const fetchChain = async () => {
-        const block = await publicClient?.[
-          supportedChains[0].name
-        ]?.getChainId();
+        const block = await walletClient?.getChainId();
         setCurrentChain(getChain(block || 1));
         return;
       };
@@ -78,7 +77,7 @@ export const ChainContextProvider = ({
         setCurrentChain(getChain(+chainId));
       });
     };
-  }, [publicClient, supportedChains]);
+  }, [walletClient]);
 
   useEffect(() => {
     console.log('initialChain from chainContext: ', initialChain);
@@ -96,9 +95,16 @@ export const ChainContextProvider = ({
           supportedChains,
           initialChain,
           currentChain,
+          setCurrentChain,
           switchingToChainId,
         }),
-        [supportedChains, initialChain, currentChain, switchingToChainId]
+        [
+          supportedChains,
+          initialChain,
+          currentChain,
+          switchingToChainId,
+          setCurrentChain,
+        ]
       )}
     >
       {children}
@@ -112,6 +118,9 @@ export const useSupportedChains = () =>
 export const useInitialChain = () => useContext(ChainContext).initialChain;
 
 export const useCurrentChain = () => useContext(ChainContext).currentChain;
+
+export const useSetCurrentChain = () =>
+  useContext(ChainContext).setCurrentChain;
 
 export const useChain = () => {
   const { currentChain, supportedChains } = useContext(ChainContext);

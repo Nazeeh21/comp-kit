@@ -2,6 +2,7 @@ import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
 import {
+  useDisconnect,
   useSetAddress,
   useSetConnectWalletError,
   useSetWalletConnecting,
@@ -10,9 +11,16 @@ import {
 import { useProjectId, useSetWalletClient } from '../KitProvider/KitProvider';
 import {
   useCurrentChain,
+  useSetCurrentChain,
   useSupportedChains,
 } from '../KitProvider/ChainContext';
-import { storePrevAccount, storePrevWallet } from '../../utils/utils';
+import {
+  getChain,
+  getPrevAccount,
+  storePrevAccount,
+  storePrevWallet,
+} from '../../utils/utils';
+import { useEffect } from 'react';
 
 interface useWalletConnectWalletProps {
   onClose?: () => void;
@@ -30,8 +38,59 @@ export const useWalletConnectWallet = ({
     setWalletProvider = useSetWalletProvider();
 
   const supportedChains = useSupportedChains();
+  const setCurrentChain = useSetCurrentChain();
 
   const currentChain = useCurrentChain();
+  const disconnect = useDisconnect();
+
+  useEffect(() => {
+    // this reconnects the wallet on reloads if the user has connected using WalletConnect previously
+    const prevAccountData = getPrevAccount();
+    const accounts = prevAccountData?.data.accounts;
+    const storedChainData = prevAccountData?.data.chain;
+
+    const reconnect = async () => {
+      try {
+        if (accounts && storedChainData) {
+          const provider = await EthereumProvider.init({
+            chains: [...supportedChains.map(chain => chain.id)],
+            projectId,
+            showQrModal: false,
+          });
+
+          setCurrentChain?.(getChain(storedChainData.id));
+
+          provider.on('chainChanged', (chainId: string) => {
+            setCurrentChain?.(getChain(+chainId));
+          });
+
+          const walletClient = createWalletClient({
+            chain: currentChain ?? mainnet,
+            transport: custom(provider),
+          });
+
+          setWalletProvider('WalletConnect');
+          setWalletClient(walletClient);
+          setAddress(accounts);
+        }
+      } catch (error) {
+        console.log(
+          'Error while automatically re-connecting WalletConnect',
+          error
+        );
+        disconnect();
+        if (error instanceof Error) {
+          throw new Error(error.message);
+        } else {
+          throw new Error(
+            'Error while automatically re-connecting WalletConnect'
+          );
+        }
+      }
+    };
+
+    void reconnect();
+  }, []);
 
   return {
     id: 1,
