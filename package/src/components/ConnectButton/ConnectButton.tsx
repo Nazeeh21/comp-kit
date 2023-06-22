@@ -14,6 +14,7 @@ import {
   ImageContainer,
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
+import { Arrow } from '../ui/Modal/styles';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,35 +58,30 @@ export const ConnectButton = () => {
     <>
       <Button onClick={openModal}>Connect Wallet</Button>
       <Modal isOpen={isOpen} onClose={closeModal}>
-        <WalletButton
-          wallet="metamask"
-          disabled={connecting}
-          onClick={connectMetamask}
-        >
-          <ImageContainer>
+        <WalletButton disabled={connecting} onClick={connectMetamask}>
+          <ImageContainer wallet="metamask">
             <Image
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
               alt="wallet"
             />
           </ImageContainer>
           {metaMaskName}
+          <Arrow />
         </WalletButton>
-        <WalletButton
-          wallet="walletconnect"
-          disabled={connecting}
-          onClick={connectWalletConnect}
-        >
-          <ImageContainer>
+        <WalletButton disabled={connecting} onClick={connectWalletConnect}>
+          <ImageContainer wallet="walletconnect">
             <Image
-              src="https://api.nuget.org/v3-flatcontainer/walletconnect.core/2.0.4/icon"
-              alt="wakllet"
+              src="https://altcoinsbox.com/wp-content/uploads/2023/04/wallet-connect-logo.png"
+              alt="wallet"
             />
           </ImageContainer>
           {walletConnectName}
+          <Arrow />
         </WalletButton>
-        <WalletButton wallet="none" disabled={true}>
-          <ImageContainer>🏗️</ImageContainer>
+        <WalletButton disabled={true}>
+          <ImageContainer wallet="none">🏗️</ImageContainer>
           Coming soon
+          <Arrow />
         </WalletButton>
       </Modal>
     </>
