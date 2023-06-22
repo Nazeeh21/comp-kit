@@ -89,7 +89,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   useEffect(() => {
     // add listeners to listen account changes in metamask
     if (
-      getPrevWallet() === 'MetaMask' &&
+      walletProvider === 'MetaMask' &&
       typeof window !== 'undefined' &&
       window?.ethereum
     ) {
@@ -108,21 +108,23 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
         console.log('accountsChanges', accounts);
       });
     };
-  }, []);
+  }, [walletProvider]);
 
   useEffect(() => {
     // persists address on reload if wallet is metamask
-    void (async () => {
-      const accounts = await walletClient?.getAddresses();
+    if (getPrevWallet() === 'MetaMask' && walletProvider === 'MetaMask') {
+      void (async () => {
+        const accounts = await walletClient?.getAddresses();
 
-      if (accounts && accounts.length > 0) {
-        setAddress(accounts);
-        console.log('Setting address', accounts);
-      } else {
-        setAddress(undefined);
-      }
-    })();
-  }, [walletClient]);
+        if (accounts && accounts.length > 0) {
+          setAddress(accounts);
+          console.log('Setting address', accounts);
+        } else {
+          setAddress(undefined);
+        }
+      })();
+    }
+  }, [walletClient, walletProvider]);
 
   useEffect(() => {
     if (getPrevWallet() === 'WalletConnect') {
@@ -130,6 +132,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
       if (data) {
         console.log('data: ', data);
         setAddress(data.data.accounts);
+        setWalletProvider('WalletConnect');
       }
     } else if (
       // persists walletClient on reload if wallet is metamask
@@ -142,6 +145,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
         transport: custom((window.ethereum as unknown) as EthereumProvider),
       });
       setWalletClient(walletClient);
+      setWalletProvider('MetaMask');
     }
   }, []);
 

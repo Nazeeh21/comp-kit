@@ -17,6 +17,7 @@ import {
 import {
   getChain,
   getPrevAccount,
+  getPrevWallet,
   storePrevAccount,
   storePrevWallet,
 } from '../../utils/utils';
@@ -51,7 +52,11 @@ export const useWalletConnectWallet = ({
 
     const reconnect = async () => {
       try {
-        if (accounts && storedChainData) {
+        if (
+          getPrevWallet() === 'WalletConnect' &&
+          accounts &&
+          storedChainData
+        ) {
           const provider = await EthereumProvider.init({
             chains: [...supportedChains.map(chain => chain.id)],
             projectId,
