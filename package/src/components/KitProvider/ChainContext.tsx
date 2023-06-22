@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { Chain } from 'viem';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
-import { getChain } from '../../utils/utils';
 import { useWalletClient } from './KitProvider';
 
 export interface ChainContextProps {
@@ -39,45 +38,6 @@ export const ChainContextProvider = ({
   const [currentChain, setCurrentChain] = useState<Chain | undefined>();
 
   const { switchChain, switchingToChainId } = useSwitchChain();
-
-  useEffect(() => {
-    // detect on which chain user is whenever user reloads
-    void (async () => {
-      if (typeof window !== 'undefined' && window.ethereum) {
-        // eslint-disable-next-line @typescript-eslint/await-thenable
-        const chainId = await window.ethereum.request({
-          method: 'eth_chainId',
-        });
-        console.log('chainId from users metamask: ', chainId);
-        chainId && setCurrentChain(getChain(+chainId));
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window?.ethereum) {
-      // detect Metamask chain change
-      window.ethereum.on('chainChanged', (chainId: string) => {
-        console.log('detected chainChanged', chainId);
-        setCurrentChain(getChain(+chainId));
-      });
-    } else {
-      const fetchChain = async () => {
-        const block = await walletClient?.getChainId();
-        setCurrentChain(getChain(block || 1));
-        return;
-      };
-      void fetchChain();
-    }
-    return () => {
-      // @ts-expect-error trying to remove eventLister on window.ethereum object
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      window?.ethereum?.removeListener('chainChanged', chainId => {
-        console.log('detected chainChanged', chainId);
-        setCurrentChain(getChain(+chainId));
-      });
-    };
-  }, [walletClient]);
 
   useEffect(() => {
     console.log('initialChain from chainContext: ', initialChain);

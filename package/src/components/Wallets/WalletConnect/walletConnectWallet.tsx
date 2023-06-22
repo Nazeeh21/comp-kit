@@ -7,20 +7,20 @@ import {
   useSetConnectWalletError,
   useSetWalletConnecting,
   useSetWalletProvider,
-} from '../KitProvider/AddressContext';
-import { useProjectId, useSetWalletClient } from '../KitProvider/KitProvider';
+} from '../../KitProvider/AddressContext';
+import { useProjectId, useSetWalletClient } from '../../KitProvider/KitProvider';
 import {
   useCurrentChain,
   useSetCurrentChain,
   useSupportedChains,
-} from '../KitProvider/ChainContext';
+} from '../../KitProvider/ChainContext';
 import {
   getChain,
   getPrevAccount,
   getPrevWallet,
   storePrevAccount,
   storePrevWallet,
-} from '../../utils/utils';
+} from '../../../utils/utils';
 import { useEffect } from 'react';
 
 interface useWalletConnectWalletProps {

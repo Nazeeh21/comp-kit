@@ -5,8 +5,8 @@ import {
   useWalletConnecting,
   useWalletStatus,
 } from '../KitProvider/AddressContext';
-import { useMetaMaskWallet } from '../Wallets/metaMaskWallet';
-import { useWalletConnectWallet } from '../Wallets/walletConnectWallet';
+import { useMetaMaskWallet } from '../Wallets/MetaMask/metaMaskWallet';
+import { useWalletConnectWallet } from '../Wallets/WalletConnect/walletConnectWallet';
 import { Button } from '../ui/Button/Button';
 import { Modal } from '../ui/Modal/Modal';
 import {
