@@ -67,8 +67,9 @@ export const useWalletConnectWallet = ({
           });
 
           setCurrentChain?.(getChain(storedChainData.id));
-
+          await provider.connect();
           provider.on('chainChanged', (chainId: string) => {
+            console.log('chainChanged after reconnect', chainId);
             setCurrentChain?.(getChain(+chainId));
           });
 
@@ -79,7 +80,6 @@ export const useWalletConnectWallet = ({
 
           setWalletProvider('WalletConnect');
           setWalletClient(walletClient);
-          setAddress(accounts);
         }
       } catch (error) {
         console.log(
@@ -97,7 +97,7 @@ export const useWalletConnectWallet = ({
       }
     };
 
-    void reconnect();
+    getPrevWallet() === 'WalletConnect' && void reconnect();
   }, []);
 
   return {
@@ -114,6 +114,10 @@ export const useWalletConnectWallet = ({
 
         provider.on('display_uri', (uri: string) => {
           console.log('URI: ', uri);
+        });
+
+        provider.on('chainChanged', (chainId: string) => {
+          setCurrentChain?.(getChain(+chainId));
         });
 
         await provider.connect();
