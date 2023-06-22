@@ -52,7 +52,7 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
 
   useEffect(() => {
     // persists address on reload if wallet is metamask
-    if (getPrevWallet() === 'MetaMask' && walletProvider === 'MetaMask') {
+    if (walletProvider === 'MetaMask') {
       void (async () => {
         const accounts = await walletClient?.getAddresses();
 
@@ -93,7 +93,6 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
     // detect on which chain user is whenever user reloads
     void (async () => {
       if (
-        getPrevWallet() === 'MetaMask' &&
         walletProvider === 'MetaMask' &&
         typeof window !== 'undefined' &&
         window.ethereum

@@ -8,7 +8,10 @@ import {
   useSetWalletConnecting,
   useSetWalletProvider,
 } from '../../KitProvider/AddressContext';
-import { useProjectId, useSetWalletClient } from '../../KitProvider/KitProvider';
+import {
+  useProjectId,
+  useSetWalletClient,
+} from '../../KitProvider/KitProvider';
 import {
   useCurrentChain,
   useSetCurrentChain,
