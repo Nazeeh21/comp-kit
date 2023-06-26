@@ -85,3 +85,8 @@ In order to use Pure and Ready to use components, refer to the guide [here](./Pu
 
 ### Compound Component
 In order to use Compound and Ready to use components, refer to the guide [here](./CompoundComponent.md)
+
+### Hooks
+There are mainly 2 hooks provided by the `comp-kit` to access data regarding the account and network. 
+- [`useAccount`](./useAccount.md)
+- [`useChain`](./useChain.md)
