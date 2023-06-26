@@ -75,10 +75,9 @@
     "jest.config.js",
     "stories/**.tsx",
     "stories/**/**.tsx",
-    "package/src/custom.d.ts"
+    "package/src/custom.d.ts",
 ],
   "exclude": [
     "package/src/components/test/__snapshots__",
-    "package/src/components/test/utils/index.ts"
   ]
 }

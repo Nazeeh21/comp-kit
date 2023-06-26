@@ -1,6 +1,6 @@
 {
   "name": "@nazeeh2000/comp-kit",
-  "version": "0.0.16-development",
+  "version": "0.0.21-development",
   "description": "This is a UI library consisting of components for web3 and web2 users",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
