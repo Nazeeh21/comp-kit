@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Button } from '../../components/ui/Button/Button';
 import { Modal, ModalProps } from '../../components/ui/Modal/Modal';
 import { WalletButton } from '../../components/ui/WalletButton/WalletButton';
-import { useMetaMaskWallet } from '../../components/Wallets/metaMaskWallet';
-import { useWalletConnectWallet } from '../../components/Wallets/walletConnectWallet';
+import { useMetaMaskWallet } from '../../components/Wallets/MetaMask/metaMaskWallet';
+import { useWalletConnectWallet } from '../../components/Wallets/WalletConnect/walletConnectWallet';
 import {
   useDisconnect,
   useWalletConnecting,
