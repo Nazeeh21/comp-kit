@@ -1,4 +1,3 @@
-import EthereumProvider from '@walletconnect/ethereum-provider/dist/types/EthereumProvider';
 import React, {
   FC,
   ReactNode,
@@ -9,14 +8,9 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { Address, createWalletClient, custom } from 'viem';
-import { mainnet } from 'viem/chains';
-import {
-  getPrevAccount,
-  getPrevWallet,
-  removePrevAccount,
-  removePrevWallet,
-} from '../../utils/utils';
+import { Address } from 'viem';
+import { removePrevAccount, removePrevWallet } from '../../utils/utils';
+import { MetaMaskFunc } from '../Wallets/MetaMask/MetamaskFunc';
 import { useSetWalletClient, useWalletClient } from './KitProvider';
 
 interface AddressContextProps {
@@ -87,65 +81,6 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   }, [walletClient]);
 
   useEffect(() => {
-    // add listeners to listen account changes in metamask
-    if (
-      getPrevWallet() === 'MetaMask' &&
-      typeof window !== 'undefined' &&
-      window?.ethereum
-    ) {
-      window.ethereum.on('accountsChanged', accounts => {
-        console.log('accountsChanges', accounts);
-        if (accounts && accounts.length > 0) {
-          console.log('Setting address', accounts);
-          setAddress((accounts as unknown) as Address[]);
-        }
-      });
-    }
-    return () => {
-      // @ts-expect-error trying to remove eventLister on window.ethereum object
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      window?.ethereum?.removeListener('accountsChanged', accounts => {
-        console.log('accountsChanges', accounts);
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    // persists address on reload if wallet is metamask
-    void (async () => {
-      const accounts = await walletClient?.getAddresses();
-
-      if (accounts && accounts.length > 0) {
-        setAddress(accounts);
-        console.log('Setting address', accounts);
-      } else {
-        setAddress(undefined);
-      }
-    })();
-  }, [walletClient]);
-
-  useEffect(() => {
-    if (getPrevWallet() === 'WalletConnect') {
-      const data = getPrevAccount();
-      if (data) {
-        console.log('data: ', data);
-        setAddress(data.data.accounts);
-      }
-    } else if (
-      // persists walletClient on reload if wallet is metamask
-      getPrevWallet() === 'MetaMask' &&
-      typeof window !== 'undefined' &&
-      window?.ethereum
-    ) {
-      const walletClient = createWalletClient({
-        chain: mainnet,
-        transport: custom((window.ethereum as unknown) as EthereumProvider),
-      });
-      setWalletClient(walletClient);
-    }
-  }, []);
-
-  useEffect(() => {
     console.log('address from AddressContext: ', address);
   }, [address]);
   useEffect(() => {
@@ -192,7 +127,7 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
         ]
       )}
     >
-      {children}
+      <MetaMaskFunc>{children}</MetaMaskFunc>
     </AddressContext.Provider>
   );
 };
