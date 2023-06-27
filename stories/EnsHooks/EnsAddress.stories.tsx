@@ -4,12 +4,13 @@ import { Chain, arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
 import { KitProvider, useEnsAddress } from '../../package/src';
 
 const Comp = ({ ensName }: { ensName: string }) => {
-  const { address, fetching } = useEnsAddress({ ensName });
+  const { address, fetching, error } = useEnsAddress({ ensName });
   if (typeof window?.ethereum === 'undefined') return <>Window is undefined</>;
   return (
     <>
       {fetching && <div style={{ fontSize: '1rem' }}>Fetching...</div>}
       {address && <div>Resolved Address: {address}</div>}
+      {error && <div>Error: {error.message}</div>}
     </>
   );
 };
