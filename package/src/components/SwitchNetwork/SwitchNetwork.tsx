@@ -3,19 +3,27 @@ import { Chain } from 'viem/chains';
 import { useSwitchChain } from '../../hooks/useSwitchChain';
 import {
   useCurrentChain,
+  useSetCurrentChain,
   useSupportedChains,
 } from '../KitProvider/ChainContext';
 import { Select } from '../ui/Select/Select';
-import { useIsConnected } from '../KitProvider/AddressContext';
+import {
+  useIsConnected,
+  useWalletProvider,
+} from '../KitProvider/AddressContext';
+import { getChain } from '../../utils/utils';
 
 export const SwitchNetworks = () => {
   const supportedChains = useSupportedChains();
   const { switchChain, switchingToChainId } = useSwitchChain();
   const currentChain = useCurrentChain();
+  const setCurrentChain = useSetCurrentChain();
   const isConnected = useIsConnected();
   const [value, setValue] = React.useState<Chain>(
     currentChain ?? supportedChains[0]
   );
+
+  const walletProvider = useWalletProvider();
 
   useEffect(() => {
     console.log('currentChain from switchNetwork: ', currentChain);
@@ -31,6 +39,8 @@ export const SwitchNetworks = () => {
     const newChainId = await switchChain(+value.id);
     console.log({ newChainId });
     !!newChainId && typeof newChainId === 'number' && setValue(value);
+    walletProvider === 'WalletConnect' &&
+      setCurrentChain?.(getChain(+newChainId));
   };
 
   return (

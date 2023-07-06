@@ -6,6 +6,7 @@
     "jest.config.js",
     "stories/**.tsx",
     "stories/**/**.tsx",
-    "package/src/custom.d.ts"
+    "package/src/custom.d.ts",
+    "package/src/components/test",
   ]
 }

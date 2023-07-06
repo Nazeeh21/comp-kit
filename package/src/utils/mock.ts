@@ -59,3 +59,13 @@ export const requestObject = ({ method, params }: any) => {
       ];
   }
 };
+
+declare global {
+  interface Window {
+    ethereum: {
+      on(arg0: string, arg1: (chainId: string) => void): unknown;
+      enable(): unknown;
+      request: typeof requestObject;
+    };
+  }
+}

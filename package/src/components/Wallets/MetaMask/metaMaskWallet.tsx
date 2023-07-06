@@ -2,15 +2,15 @@ import { EthereumProvider } from '@walletconnect/ethereum-provider';
 import { createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
 import { BaseRpcRequests } from 'viem/dist/types/clients/transports/createTransport';
-import { useSetWalletClient } from '../KitProvider/KitProvider';
+import { useSetWalletClient } from '../../KitProvider/KitProvider';
 import {
   useSetAddress,
   useSetConnectWalletError,
   useSetWalletConnecting,
   useSetWalletProvider,
-} from '../KitProvider/AddressContext';
-import { useCurrentChain } from '../KitProvider/ChainContext';
-import { storePrevAccount, storePrevWallet } from '../../utils/utils';
+} from '../../KitProvider/AddressContext';
+import { useCurrentChain } from '../../KitProvider/ChainContext';
+import { storePrevAccount, storePrevWallet } from '../../../utils/utils';
 
 type EthereumProvider = { request: BaseRpcRequests['request'] };
 
