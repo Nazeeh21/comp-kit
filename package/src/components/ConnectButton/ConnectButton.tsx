@@ -6,6 +6,7 @@ import {
   useWalletStatus,
 } from '../KitProvider/AddressContext';
 import { useMetaMaskWallet } from '../Wallets/MetaMask/metaMaskWallet';
+import { useEnsName } from '../../hooks/ensHooks/useEnsName';
 import { useWalletConnectWallet } from '../Wallets/WalletConnect/walletConnectWallet';
 import { Button } from '../ui/Button/Button';
 import { Modal } from '../ui/Modal/Modal';
@@ -15,9 +16,11 @@ import {
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
 import { Arrow } from '../ui/Modal/styles';
+import { LogOut } from 'lucide-react';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDisconnectModal, setIsDisconnectModal] = useState(false);
 
   const status = useWalletStatus();
   const address = useAddress();
@@ -41,23 +44,57 @@ export const ConnectButton = () => {
     connect: connectWalletConnect,
   } = useWalletConnectWallet({ onClose: closeModal });
 
+  const { ensName } = useEnsName({
+    address: address?.[0] ? address[0] : '0x0',
+  });
+
   if (status === 'connected' && address) {
     console.log('address', address);
     return (
-      <Button>
-        <div>
-          {address.toString().substring(0, 6)}...
-          {address.toString().substring(address.toString().length - 4)}
-        </div>
-        <Button onClick={disconnect}>Disconnect</Button>
-      </Button>
+      <>
+        <Button
+          style={{
+            padding: '0',
+            gap: '0.5rem',
+            paddingLeft: '0.5rem',
+          }}
+          onClick={() => {
+            setIsDisconnectModal(true);
+          }}
+        >
+          <div>
+            {!ensName && address.toString().substring(0, 6)}...
+            {!ensName &&
+              address.toString().substring(address.toString().length - 4)}
+            {ensName && ensName}
+          </div>
+          <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
+            0.001 ETH
+          </Button>
+        </Button>
+        <Modal
+          heading="Connected"
+          isOpen={isDisconnectModal}
+          onClose={() => {
+            setIsDisconnectModal(false);
+          }}
+        >
+          <Button
+            onClick={disconnect}
+            style={{ gap: '0.5rem', fontSize: '1.2rem' }}
+          >
+            Disconnect
+            <LogOut />
+          </Button>
+        </Modal>
+      </>
     );
   }
 
   return (
     <>
       <Button onClick={openModal}>Connect Wallet</Button>
-      <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal heading="Connect Wallet" isOpen={isOpen} onClose={closeModal}>
         <WalletButton disabled={connecting} onClick={connectMetamask}>
           <ImageContainer wallet="metamask">
             <Image

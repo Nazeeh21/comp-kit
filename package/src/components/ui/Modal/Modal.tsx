@@ -3,6 +3,7 @@ import { CloseButton, ModalContainer, ModalHeading, Overlay } from './styles';
 
 export interface ModalProps
   extends React.ComponentProps<typeof ModalContainer> {
+  heading: string;
   isOpen: boolean;
   onClose: React.MouseEventHandler<SVGSVGElement> | undefined;
   closeOnOverlayClick?: boolean;
@@ -12,6 +13,7 @@ export interface ModalProps
 
 // Modal component
 export const Modal: React.FC<ModalProps> = ({
+  heading,
   isOpen,
   onClose,
   closeOnOverlayClick = false,
@@ -58,7 +60,7 @@ export const Modal: React.FC<ModalProps> = ({
         {...props}
       >
         <CloseButton {...closeButtonProps} onClick={onClose} />
-        <ModalHeading>Connect wallet</ModalHeading>
+        <ModalHeading>{heading}</ModalHeading>
         {children}
       </ModalContainer>
     </Overlay>
