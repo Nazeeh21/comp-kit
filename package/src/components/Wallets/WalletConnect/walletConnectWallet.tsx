@@ -64,6 +64,10 @@ export const useWalletConnectWallet = ({
             chains: [...supportedChains.map(chain => chain.id)],
             projectId,
             showQrModal: false,
+            optionalChains: [
+              supportedChains[0].id,
+              ...supportedChains.slice(1).map(chain => chain.id),
+            ],
           });
 
           setCurrentChain?.(getChain(storedChainData.id));
@@ -110,6 +114,10 @@ export const useWalletConnectWallet = ({
           chains: [...supportedChains.map(chain => chain.id)],
           projectId,
           showQrModal: true,
+          optionalChains: [
+            supportedChains[0].id,
+            ...supportedChains.slice(1).map(chain => chain.id),
+          ],
         });
 
         provider.on('display_uri', (uri: string) => {
