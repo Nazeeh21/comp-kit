@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { CloseButton, ModalContainer, Overlay } from './styles';
+import { CloseButton, ModalContainer, ModalHeading, Overlay } from './styles';
 
 export interface ModalProps
   extends React.ComponentProps<typeof ModalContainer> {
+  heading: string;
   isOpen: boolean;
   onClose: React.MouseEventHandler<SVGSVGElement> | undefined;
   closeOnOverlayClick?: boolean;
@@ -12,6 +13,7 @@ export interface ModalProps
 
 // Modal component
 export const Modal: React.FC<ModalProps> = ({
+  heading,
   isOpen,
   onClose,
   closeOnOverlayClick = false,
@@ -50,8 +52,15 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <Overlay onClick={handleClickOutside}>
-      <ModalContainer {...props}>
+      <ModalContainer
+        responsive={{
+          '@initial': 'desktop',
+          '@bp1': 'tablet',
+        }}
+        {...props}
+      >
         <CloseButton {...closeButtonProps} onClick={onClose} />
+        <ModalHeading>{heading}</ModalHeading>
         {children}
       </ModalContainer>
     </Overlay>

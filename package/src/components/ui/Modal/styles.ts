@@ -1,5 +1,11 @@
-import { styled } from '@stitches/react';
-import { X } from 'lucide-react';
+import { createStitches } from '@stitches/react';
+import { X, ArrowRight } from 'lucide-react';
+
+const { styled } = createStitches({
+  media: {
+    bp1: '(max-width: 768px)',
+  },
+});
 
 // Modal styles
 export const Overlay = styled('div', {
@@ -12,23 +18,13 @@ export const Overlay = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  backdropFilter: 'blur(5px)',
 });
 
 export const ModalContainer = styled('div', {
-  position: 'relative',
-  padding: '3em 2.3em',
-  borderRadius: '20px',
-  width: '35%', // Default width for larger screens
+  borderRadius: '20px', // Default width for larger screens
   height: 'fit-content', // Default height for larger screens
-  maxWidth: '50%', // Max width for larger screens
-  maxHeight: '50%', // Max height for larger screens
   overflow: 'auto', // Enable scrolling for overflowing content
-  '@media(max-width: 767px)': {
-    width: '80%', // Width for mobile devices
-    minHeight: '20%',
-    height: 'fit-content', // Height for mobile devices
-    maxHeight: '80%', // Max height for mobile devices
-  },
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -43,6 +39,24 @@ export const ModalContainer = styled('div', {
       dark: {
         backgroundColor: '#222122',
         color: 'white',
+      },
+    },
+    responsive: {
+      tablet: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        maxWidth: '100%',
+        width: '100%',
+        padding: '2em 1.5em',
+        boxSizing: 'border-box',
+      },
+      desktop: {
+        position: 'relative',
+        maxWidth: '50%', // Max width for larger screens
+        maxHeight: '50%',
+        width: '35%',
+        padding: '3em 2.3em',
       },
     },
   },
@@ -71,4 +85,13 @@ export const CloseButton = styled(X, {
   defaultVariants: {
     color: 'light',
   },
+});
+
+export const ModalHeading = styled('h2', {
+  fontSize: '1.5em',
+  fontFamily: 'Poppins, sans-serif',
+});
+
+export const Arrow = styled(ArrowRight, {
+  marginLeft: 'auto',
 });

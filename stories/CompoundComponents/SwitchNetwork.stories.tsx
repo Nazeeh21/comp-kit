@@ -25,13 +25,13 @@ const CustomStyleComp = () => {
           style={{ border: '2px solid cyan', background: 'red' }}
           value={mainnet}
         >
-          mainnet 1
+          mainnet
         </SwitchNetworkWrapper.Option>
         <SwitchNetworkWrapper.Option value={goerli}>
-          goerli 2
+          goerli
         </SwitchNetworkWrapper.Option>
         <SwitchNetworkWrapper.Option css={{ color: 'blue' }} value={arbitrum}>
-          arbitrum 3
+          arbitrum
         </SwitchNetworkWrapper.Option>
         <SwitchNetworkWrapper.Option
           css={{ color: 'blue' }}

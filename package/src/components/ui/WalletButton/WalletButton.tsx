@@ -6,20 +6,16 @@ const _LightBackgroundColor = '#f9fdfe';
 export const WalletButton = styled('button', {
   backgroundColor: 'white',
   borderRadius: '10px',
+  border: 'none',
   fontSize: '1.4em',
   padding: '0.5em 0.5em',
   width: '100%',
   cursor: 'pointer',
-  border: '2px solid',
-  '&:hover': {
-    backgroundColor: '#f5f5f5',
-  },
   transition: 'all 0.5s ease-in-out',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
   gap: '0.5em',
-
   variants: {
     color: {
       dark: {
@@ -37,7 +33,7 @@ export const WalletButton = styled('button', {
         backgroundColor: _LightBackgroundColor,
         color: 'black',
         '&:hover': {
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#DDF7FF',
         },
         '&:focus': {
           outline: '#f5f5f5 solid 2px',
@@ -45,40 +41,34 @@ export const WalletButton = styled('button', {
         },
       },
     },
-    wallet: {
-      metamask: {
-        borderColor: '#E88A39',
-        '&:hover': {
-          backgroundColor: '#EFD4BD',
-        },
-        '&:focus': {
-          backgroundColor: '#EFD4BD',
-        },
-      },
-      walletconnect: {
-        borderColor: '#5697F5',
-        '&:hover': {
-          background: '#BFD9FF',
-        },
-        '&:focus': {
-          backgroundColor: '#BFD9FF',
-        },
-      },
-      none: {
-        borderColor: 'black',
-      },
-    },
   },
 
   defaultVariants: {
     color: 'light',
-    wallet: 'none',
   },
 });
 
 export const ImageContainer = styled('div', {
-  width: '30px',
+  minWidth: '30px',
   height: '30px',
+  padding: '.3em',
+  borderRadius: '10px',
+  variants: {
+    wallet: {
+      metamask: {
+        backgroundColor: '#F49C4E',
+      },
+      walletconnect: {
+        backgroundColor: '#5194F7',
+      },
+      none: {
+        backgroundColor: 'black',
+      },
+    },
+  },
+  defaultVariants: {
+    wallet: 'none',
+  },
 });
 
 export const Image = styled('img', {
