@@ -32,8 +32,8 @@ export const ConnectButton = () => {
   };
 
   const closeModal = () => {
-    console.log('closing modal');
     setIsOpen(false);
+    setIsDisconnectModal(false);
   };
 
   const { name: metaMaskName, connect: connectMetamask } = useMetaMaskWallet({
