@@ -45,7 +45,7 @@ export const ConnectButton = () => {
   } = useWalletConnectWallet({ onClose: closeModal });
 
   const { ensName } = useEnsName({
-    address: address?.[0] ? address[0] : '0x0',
+    address: address?.[0] ?? '0x0',
   });
 
   if (status === 'connected' && address) {
@@ -63,14 +63,14 @@ export const ConnectButton = () => {
           }}
         >
           <div>
-            {!ensName && address.toString().substring(0, 6)}...
-            {!ensName &&
-              address.toString().substring(address.toString().length - 4)}
-            {ensName && ensName}
+            {ensName ??
+              address.toString().substring(0, 6) +
+                '...' +
+                address.toString().substring(address.toString().length - 4)}
           </div>
-          <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
+          {/* <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
             0.001 ETH
-          </Button>
+          </Button> */}
         </Button>
         <Modal
           heading="Connected"
