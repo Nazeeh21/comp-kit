@@ -21,6 +21,7 @@ const Comp: FC<Props> = ({ closeOnOverlayClick = false }) => {
     <div>
       <Button onClick={openModal}>Open Modal</Button>
       <Modal
+        heading="Modal Heading"
         closeOnOverlayClick={closeOnOverlayClick}
         isOpen={isOpen}
         onClose={closeModal}

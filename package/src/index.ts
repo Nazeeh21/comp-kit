@@ -15,3 +15,6 @@ export { SwitchNetworkWrapper } from './compoundComps/SwitchNetwork/SwitchNetwor
 // Hooks
 export { useAccount } from './components/KitProvider/AddressContext';
 export { useChain } from './components/KitProvider/ChainContext';
+export { useEnsAddress } from './hooks/ensHooks/useEnsAddress';
+export { useEnsName } from './hooks/ensHooks/useEnsName';
+export { useEnsAvatar } from './hooks/ensHooks/useEnsAvatar';
