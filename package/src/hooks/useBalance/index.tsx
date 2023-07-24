@@ -4,6 +4,7 @@ import { useCurrentChain } from '../../components/KitProvider/ChainContext';
 import { usePublicClient } from '../../components/KitProvider/KitProvider';
 import { makeCancelable } from '../../utils/makeCancelable';
 import { mainnet } from 'viem/chains';
+import { useEnsAddress } from '../ensHooks/useEnsAddress';
 
 export interface UseBalanceResult {
   etherBalance?: string;
@@ -18,6 +19,7 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
   const [error, setError] = useState<Error>();
   const currentChain = useCurrentChain();
   const _publicClient = usePublicClient();
+  const { address: ensAddress } = useEnsAddress({ ensName: address });
 
   useEffect(() => {
     const publicClient = _publicClient?.[currentChain?.name ?? mainnet.name];
@@ -43,7 +45,7 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
       try {
         const { promise, cancel } = makeCancelable(
           publicClient?.getBalance({
-            address,
+            address: ensAddress ?? address,
             ...args,
           })
         );
@@ -71,7 +73,7 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
       isMounted = false;
       cancelPreviousPromise?.();
     };
-  }, [currentChain, _publicClient, address]);
+  }, [currentChain, _publicClient, address, ensAddress]);
 
   return useMemo(
     () => ({
