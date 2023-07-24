@@ -1,4 +1,7 @@
+import { LogOut } from 'lucide-react';
 import React, { useState } from 'react';
+import { useEnsName } from '../../hooks/ensHooks/useEnsName';
+import { useBalance } from '../../hooks/useBalance';
 import {
   useAddress,
   useDisconnect,
@@ -6,17 +9,15 @@ import {
   useWalletStatus,
 } from '../KitProvider/AddressContext';
 import { useMetaMaskWallet } from '../Wallets/MetaMask/metaMaskWallet';
-import { useEnsName } from '../../hooks/ensHooks/useEnsName';
 import { useWalletConnectWallet } from '../Wallets/WalletConnect/walletConnectWallet';
 import { Button } from '../ui/Button/Button';
 import { Modal } from '../ui/Modal/Modal';
+import { Arrow } from '../ui/Modal/styles';
 import {
   Image,
   ImageContainer,
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
-import { Arrow } from '../ui/Modal/styles';
-import { LogOut } from 'lucide-react';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +49,11 @@ export const ConnectButton = () => {
     address: address?.[0] ?? '0x0',
   });
 
+  const { etherBalance } = useBalance({
+    address: address?.[0] ?? '0x0',
+    blockTag: 'latest',
+  });
+
   if (status === 'connected' && address) {
     console.log('address', address);
     return (
@@ -68,12 +74,15 @@ export const ConnectButton = () => {
                 '...' +
                 address.toString().substring(address.toString().length - 4)}
           </div>
-          {/* <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
-            0.001 ETH
-          </Button> */}
+          <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
+            {etherBalance
+              ? etherBalance.toString().slice(0, 4) + ' ETH'
+              : 'Disconnect'}
+          </Button>
         </Button>
         <Modal
           heading="Connected"
+          closeOnOverlayClick
           isOpen={isDisconnectModal}
           onClose={() => {
             setIsDisconnectModal(false);
@@ -94,7 +103,12 @@ export const ConnectButton = () => {
   return (
     <>
       <Button onClick={openModal}>Connect Wallet</Button>
-      <Modal heading="Connect Wallet" isOpen={isOpen} onClose={closeModal}>
+      <Modal
+        heading="Connect Wallet"
+        isOpen={isOpen}
+        closeOnOverlayClick
+        onClose={closeModal}
+      >
         <WalletButton disabled={connecting} onClick={connectMetamask}>
           <ImageContainer wallet="metamask">
             <Image
