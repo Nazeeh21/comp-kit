@@ -18,6 +18,9 @@ import {
   ImageContainer,
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
+import { useGetNativeToken } from '../../utils/nativeTokens';
+import { useCurrentChain } from '../KitProvider/ChainContext';
+import { mainnet } from 'viem/chains';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +30,8 @@ export const ConnectButton = () => {
   const address = useAddress();
   const connecting = useWalletConnecting();
   const disconnect = useDisconnect();
+  const currentChain = useCurrentChain();
+  const { nativeToken } = useGetNativeToken({ chain: currentChain ?? mainnet });
 
   const openModal = () => {
     setIsOpen(true);
@@ -76,7 +81,7 @@ export const ConnectButton = () => {
           </div>
           <Button style={{ backgroundColor: 'rgba(1,1,1,0.1)' }}>
             {etherBalance
-              ? etherBalance.toString().slice(0, 4) + ' ETH'
+              ? etherBalance.toString().slice(0, 4) + ' ' + nativeToken
               : 'Disconnect'}
           </Button>
         </Button>

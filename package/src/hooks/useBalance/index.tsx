@@ -30,7 +30,9 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
 
     if (!publicClient) {
       console.log('No public client found', { publicClient });
-      setError(new Error('No public client found'));
+      setError(
+        new Error('No public client found or this chain is not supported')
+      );
       return;
     }
 

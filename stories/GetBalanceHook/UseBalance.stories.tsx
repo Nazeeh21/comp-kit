@@ -1,7 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { Address } from 'viem';
-import { Chain, arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
+import {
+  arbitrum,
+  bsc,
+  goerli,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from 'viem/chains';
 import { KitProvider } from '../../package/src';
 import { useCurrentChain } from '../../package/src/components/KitProvider/ChainContext';
 import { useBalance } from '../../package/src/hooks/useBalance';
@@ -41,7 +49,15 @@ const meta: Meta<typeof Comp> = {
       return (
         <KitProvider
           projectId="5a13f1a5297da2cd768519079890e4fe"
-          supportedChains={[goerli, arbitrum, polygonMumbai, mainnet]}
+          supportedChains={[
+            goerli,
+            arbitrum,
+            polygonMumbai,
+            mainnet,
+            polygon,
+            optimism,
+            bsc,
+          ]}
         >
           <Story />
         </KitProvider>
