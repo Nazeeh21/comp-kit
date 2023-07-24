@@ -34,7 +34,7 @@ const Comp = () => {
             Compound Connect Button
           </ConnectButtonPrimitive.Button>
           <ConnectButtonPrimitive.Modal
-            heading="Connect Wallet"
+            heading="Custom Connect Wallet"
             closeOnOverlayClick={true}
             style={{ background: 'cyan' }}
             closeButtonProps={{ style: { background: 'yellow' } }}
