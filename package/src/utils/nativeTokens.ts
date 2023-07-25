@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Chain } from 'viem';
-import { bsc, mainnet, polygon, polygonMumbai } from 'viem/chains';
+import { bsc, goerli, mainnet, polygon, polygonMumbai } from 'viem/chains';
 
 const nativeTokens: Record<string, string> = {
   [mainnet.id]: 'ETH',
+  [goerli.id]: 'ETH',
   [bsc.id]: 'BNB',
   [polygon.id]: 'MATIC',
   [polygonMumbai.id]: 'MATIC',
