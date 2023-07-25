@@ -1,6 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Chain } from 'viem';
-import { bsc, goerli, mainnet, polygon, polygonMumbai } from 'viem/chains';
+import {
+  arbitrum,
+  aurora,
+  avalanche,
+  bsc,
+  celo,
+  fantom,
+  gnosis,
+  goerli,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  telos,
+} from 'viem/chains';
 
 const nativeTokens: Record<string, string> = {
   [mainnet.id]: 'ETH',
@@ -8,6 +23,15 @@ const nativeTokens: Record<string, string> = {
   [bsc.id]: 'BNB',
   [polygon.id]: 'MATIC',
   [polygonMumbai.id]: 'MATIC',
+  [celo.id]: 'CELO',
+  [sepolia.id]: 'SepoliaETH',
+  [optimism.id]: 'ETH',
+  [arbitrum.id]: 'ETH',
+  [avalanche.id]: 'AVAX',
+  [fantom.id]: 'FTM',
+  [aurora.id]: 'ETH',
+  [gnosis.id]: 'xDai',
+  [telos.id]: 'TLOS',
 };
 
 export function useGetNativeToken({ chain }: { chain: Chain }) {
