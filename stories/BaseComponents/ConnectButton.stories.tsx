@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { goerli, mainnet } from 'viem/chains';
+import {
+  arbitrum,
+  bsc,
+  goerli,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from 'viem/chains';
 import { ConnectButton, KitProvider } from '../../package/src';
 
 const Comp = () => {
@@ -9,7 +17,15 @@ const Comp = () => {
     <KitProvider
       projectId="5a13f1a5297da2cd768519079890e4fe"
       initialChain={mainnet}
-      supportedChains={[mainnet, goerli]}
+      supportedChains={[
+        goerli,
+        arbitrum,
+        polygonMumbai,
+        mainnet,
+        polygon,
+        optimism,
+        bsc,
+      ]}
     >
       <ConnectButton />
     </KitProvider>
