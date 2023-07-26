@@ -40,8 +40,6 @@ export const ChainContextProvider = ({
   const { switchChain, switchingToChainId } = useSwitchChain();
 
   useEffect(() => {
-    console.log('initialChain from chainContext: ', initialChain);
-    console.log('switching chain');
     initialChain !== undefined &&
       void switchChain(
         typeof initialChain === 'number' ? initialChain : initialChain?.id

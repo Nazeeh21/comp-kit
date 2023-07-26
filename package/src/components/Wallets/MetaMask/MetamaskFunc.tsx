@@ -34,9 +34,7 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
       window?.ethereum
     ) {
       window.ethereum.on('accountsChanged', accounts => {
-        console.log('accountsChanges', accounts);
         if (accounts && accounts.length > 0) {
-          console.log('Setting address', accounts);
           setAddress((accounts as unknown) as Address[]);
         }
       });
@@ -58,7 +56,6 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
 
         if (accounts && accounts.length > 0) {
           setAddress(accounts);
-          console.log('Setting address', accounts);
         } else {
           setAddress(undefined);
         }
@@ -70,7 +67,6 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
     if (getPrevWallet() === 'WalletConnect') {
       const data = getPrevAccount();
       if (data) {
-        console.log('data: ', data);
         setAddress(data.data.accounts);
         setWalletProvider('WalletConnect');
       }
@@ -101,7 +97,6 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
         const chainId = await window.ethereum.request({
           method: 'eth_chainId',
         });
-        console.log('chainId from users metamask: ', chainId);
         chainId && setCurrentChain?.(getChain(+chainId));
       }
     })();
@@ -130,7 +125,6 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
       // @ts-expect-error trying to remove eventLister on window.ethereum object
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       window?.ethereum?.removeListener('chainChanged', chainId => {
-        console.log('detected chainChanged', chainId);
         setCurrentChain?.(getChain(+chainId));
       });
     };

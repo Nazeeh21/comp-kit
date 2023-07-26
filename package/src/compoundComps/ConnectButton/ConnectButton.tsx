@@ -67,7 +67,6 @@ export const ConnectButtonPrimitive: CompoundConnectButtonWithModalProps = ({
   };
 
   const closeModal = () => {
-    console.log('closing modal');
     setIsOpen(false);
   };
 

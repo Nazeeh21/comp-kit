@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Chain, arbitrum, goerli, mainnet, polygonMumbai } from 'viem/chains';
 import {
   ConnectButtonPrimitive,
@@ -9,14 +9,6 @@ import {
 
 const Comp = () => {
   const { address, isConnected } = useAccount();
-
-  useEffect(() => {
-    console.log('address', address);
-  }, [address]);
-
-  useEffect(() => {
-    console.log('isConnected', isConnected);
-  }, [isConnected]);
 
   if (typeof window?.ethereum === 'undefined') return <>Window is undefined</>;
   return (

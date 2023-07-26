@@ -54,7 +54,6 @@ export const useEnsAddress = ({
           setError(undefined);
         }
       } catch (error: unknown) {
-        console.log('Error while fetching ensAddress: ', error);
         if (isMounted) {
           setError(error as Error);
         }

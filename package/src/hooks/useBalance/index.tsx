@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { GetBalanceParameters, formatEther } from 'viem';
+import { mainnet } from 'viem/chains';
 import { useCurrentChain } from '../../components/KitProvider/ChainContext';
 import { usePublicClient } from '../../components/KitProvider/KitProvider';
 import { makeCancelable } from '../../utils/makeCancelable';
-import { mainnet } from 'viem/chains';
 import { useEnsAddress } from '../ensHooks/useEnsAddress';
 
 export interface UseBalanceResult {
@@ -23,7 +23,7 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
 
   useEffect(() => {
     const publicClient = _publicClient?.[currentChain?.name ?? mainnet.name];
-    console.log('currentchain changed', { currentChain });
+
     if (!address || address === '0x0')
       // address is not of the type Address
       return;
@@ -60,7 +60,6 @@ export const useBalance = ({ address, ...args }: GetBalanceParameters) => {
           setError(undefined);
         }
       } catch (error: unknown) {
-        console.log('Error while fetching balance: ', error);
         if (isMounted) {
           setError(new Error(error as string));
         }

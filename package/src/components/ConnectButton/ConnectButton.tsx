@@ -1,13 +1,16 @@
 import { LogOut } from 'lucide-react';
 import React, { useState } from 'react';
+import { mainnet } from 'viem/chains';
 import { useEnsName } from '../../hooks/ensHooks/useEnsName';
 import { useBalance } from '../../hooks/useBalance';
+import { useGetNativeToken } from '../../utils/nativeTokens';
 import {
   useAddress,
   useDisconnect,
   useWalletConnecting,
   useWalletStatus,
 } from '../KitProvider/AddressContext';
+import { useCurrentChain } from '../KitProvider/ChainContext';
 import { useMetaMaskWallet } from '../Wallets/MetaMask/metaMaskWallet';
 import { useWalletConnectWallet } from '../Wallets/WalletConnect/walletConnectWallet';
 import { Button } from '../ui/Button/Button';
@@ -18,9 +21,6 @@ import {
   ImageContainer,
   WalletButton,
 } from '../ui/WalletButton/WalletButton';
-import { useGetNativeToken } from '../../utils/nativeTokens';
-import { useCurrentChain } from '../KitProvider/ChainContext';
-import { mainnet } from 'viem/chains';
 
 export const ConnectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +60,6 @@ export const ConnectButton = () => {
   });
 
   if (status === 'connected' && address) {
-    console.log('address', address);
     return (
       <>
         <Button

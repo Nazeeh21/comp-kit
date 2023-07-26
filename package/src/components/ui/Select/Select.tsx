@@ -87,6 +87,9 @@ export function Select({
     };
   }, [isOpen, highlightedIndex, options, selectOption]);
 
+  console.log('currentChain from Select: ', currentChain);
+  console.log('options from Select: ', options);
+
   return (
     <Container
       color={variant}
