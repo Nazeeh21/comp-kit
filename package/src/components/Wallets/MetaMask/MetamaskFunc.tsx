@@ -34,8 +34,12 @@ export const MetaMaskFunc: React.FC<MetaMaskFuncProps> = ({ children }) => {
       window?.ethereum
     ) {
       window.ethereum.on('accountsChanged', accounts => {
-        if (accounts && accounts.length > 0) {
-          setAddress((accounts as unknown) as Address[]);
+        if (accounts) {
+          if (accounts.length > 0) {
+            setAddress((accounts as unknown) as Address[]);
+          } else if (accounts.length === 0) {
+            setAddress(undefined);
+          }
         }
       });
     }
