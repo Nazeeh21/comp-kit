@@ -203,7 +203,8 @@ export const SwitchNetworkWrapper: CompoundSwitchNetworkWithOptionProps = ({
         tabIndex={0}
         {...props}
       >
-        {currentChain && supportedChains.includes(currentChain) ? (
+        {currentChain &&
+        !!supportedChains.some(chain => chain.id === currentChain.id) ? (
           <Value>{currentChain.name ?? value?.name}</Value>
         ) : (
           <Value css={{ color: 'Red', borderColor: 'Red' }}>
