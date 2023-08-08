@@ -16,7 +16,9 @@ const Comp = () => {
       {isConnected && address ? (
         <>
           <div>Connected address: {address?.[0].toString()}</div>
-          <ConnectButtonPrimitive.DisconnectButton>
+          <ConnectButtonPrimitive.DisconnectButton
+            style={{ background: '#333', color: 'white', opacity: 0.9 }}
+          >
             Disconnect Wallet
           </ConnectButtonPrimitive.DisconnectButton>
         </>
