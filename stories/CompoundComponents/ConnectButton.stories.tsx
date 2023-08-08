@@ -28,16 +28,30 @@ const Comp = () => {
           <ConnectButtonPrimitive.Modal
             heading="Custom Connect Wallet"
             closeOnOverlayClick={true}
-            style={{ background: 'cyan' }}
-            closeButtonProps={{ style: { background: 'yellow' } }}
+            style={{ background: '#333', color: 'white', opacity: 0.9 }}
+            closeButtonProps={{
+              style: {
+                background: '#ccc',
+                color: 'black',
+                border: '1.5px solid black',
+              },
+            }}
           >
             <ConnectButtonPrimitive.MetaMaskButton
-              style={{ background: 'yellow' }}
+              style={{
+                background: '#2c97de',
+                color: 'white',
+                fontWeight: 'bold',
+              }}
             >
               Metamask
             </ConnectButtonPrimitive.MetaMaskButton>
             <ConnectButtonPrimitive.WalletConnect
-              style={{ background: 'yellow' }}
+              style={{
+                background: '#2c97de',
+                color: 'white',
+                fontWeight: 'bold',
+              }}
             >
               WalletConnect
             </ConnectButtonPrimitive.WalletConnect>
