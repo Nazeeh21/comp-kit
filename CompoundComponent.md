@@ -2,7 +2,7 @@
 These components are reusable and customizable compound components.
 
 ### Connect Button
-This component provides the same functionality as the one from *Pure Components*. The difference here is in the way of implementation. 
+This component provides the same functionality as the one from *Readymade Components*. The difference here is in the way of implementation. 
 
 ### Usage
 ```tsx
@@ -41,7 +41,7 @@ export default function Home() {
 }
 ```
 ### Switch Network
-This component also provides the same functionality as the one from *Pure Components*. The only difference here is in the way of implementation.
+This component also provides the same functionality as the one from *Readymade Components*. The only difference here is in the way of implementation.
 
 ### Usage
 ```tsx

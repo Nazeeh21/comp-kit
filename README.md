@@ -80,8 +80,8 @@ export default function Home() {
     )
 }
 ```
-### Pure Component
-In order to use Pure and Ready to use components, refer to the guide [here](./PureComponent.md)
+### Readymade Component
+In order to use Ready to use components, refer to the guide [here](./ReadymadeComponent.md)
 
 ### Compound Component
 In order to use Compound and Ready to use components, refer to the guide [here](./CompoundComponent.md)
