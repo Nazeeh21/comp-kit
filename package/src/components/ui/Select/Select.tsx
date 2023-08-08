@@ -95,7 +95,7 @@ export function Select({
       onClick={() => setIsOpen(prev => !prev)}
       tabIndex={0}
     >
-      {currentChain && options.includes(currentChain) ? (
+      {currentChain && !!options.some(chain => chain.id === currentChain.id) ? (
         <Value>{currentChain.name ?? value?.name}</Value>
       ) : (
         <Value css={{ color: 'Red', borderColor: 'Red' }}>Wrong Network</Value>

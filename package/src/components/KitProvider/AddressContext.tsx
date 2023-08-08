@@ -81,9 +81,6 @@ export const AddressContextProvider: FC<AddressContextProviderProps> = ({
   }, [walletClient]);
 
   useEffect(() => {
-    console.log('address from AddressContext: ', address);
-  }, [address]);
-  useEffect(() => {
     if (connecting) {
       setStatus('connecting');
     } else if (address && !error) {

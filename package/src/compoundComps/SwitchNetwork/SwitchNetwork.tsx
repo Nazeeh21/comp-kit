@@ -95,14 +95,11 @@ export const SwitchNetworkWrapper: CompoundSwitchNetworkWithOptionProps = ({
   }, [isOpen]);
 
   const selectChangeHandler = async (value: Chain) => {
-    console.log('isConnected from switchNetwork: ', isConnected);
     if (!isConnected) {
       alert('Please connect your wallet first');
       return;
     }
-    console.log('new chain value: ', value);
     const newChainId = await switchChain(+value.id);
-    console.log({ newChainId });
     !!newChainId && typeof newChainId === 'number' && setValue(value);
   };
 
@@ -206,7 +203,8 @@ export const SwitchNetworkWrapper: CompoundSwitchNetworkWithOptionProps = ({
         tabIndex={0}
         {...props}
       >
-        {currentChain && supportedChains.includes(currentChain) ? (
+        {currentChain &&
+        !!supportedChains.some(chain => chain.id === currentChain.id) ? (
           <Value>{currentChain.name ?? value?.name}</Value>
         ) : (
           <Value css={{ color: 'Red', borderColor: 'Red' }}>
