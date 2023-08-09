@@ -106,6 +106,6 @@ There are mainly 2 hooks provided by the `comp-kit` to access data regarding the
 
 #### ENS Hooks
 
-- [`useENSName`](./useEnsName.md)
-- [`useENSAddress`](./useEnsAddress.md)
-- [`useEnsAvatar`](./useEnsAvatar.md)
+- [`useENSName`](./EnsHooks/useEnsName.md)
+- [`useENSAddress`](./EnsHooks/useEnsAddress.md)
+- [`useEnsAvatar`](./EnsHooks/useEnsAvatar.md)
