@@ -19,7 +19,7 @@ const Comp = () => {
 };
 
 const meta: Meta<typeof Comp> = {
-  title: 'Pure Comps/SwitchNetworks',
+  title: 'Readymade Comps/SwitchNetworks',
   component: Comp,
 };
 

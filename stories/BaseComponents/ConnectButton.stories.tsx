@@ -33,7 +33,7 @@ const Comp = () => {
 };
 
 const meta: Meta<typeof Comp> = {
-  title: 'Pure Comps/ConnectButton',
+  title: 'Readymade Comps/ConnectButton',
   component: Comp,
 };
 

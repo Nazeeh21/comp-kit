@@ -33,7 +33,7 @@ const Comp: FC<Props> = ({ closeOnOverlayClick = false }) => {
 };
 
 const meta: Meta<typeof Comp> = {
-  title: 'Pure Comps/Modal',
+  title: 'Readymade Comps/Modal',
   component: Comp,
 };
 

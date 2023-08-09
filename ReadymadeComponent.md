@@ -1,5 +1,5 @@
-# Pure Components
-Pure components are reusable, ready-to-use, and non-customizable components.
+# ReadyMade Components
+Readymade components are reusable, ready-to-use, and non-customizable components.
 
 ### Connect Button
 This is the main button to connect your dapp with your wallet. This component is responsible for rendering **Connect button** when not connected and rendering the **connected address** and **Disconnect** Button if connected.
